@@ -1,0 +1,445 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=Loved+by+the+King&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+.scene{display:flex;justify-content:center;align-items:flex-start;padding:2rem 1rem 3rem;background:var(--color-background-secondary);min-height:900px;font-family:'DM Sans',sans-serif}
+.phone{width:375px;height:812px;background:#f4f3ef;border-radius:44px;overflow:hidden;border:2px solid #1a1a2a;position:relative;box-shadow:0 0 0 7px #0c0c1a}
+.screen{position:absolute;inset:0;overflow:hidden}
+.hs{position:absolute;inset:0;background:#0b1120;display:flex;flex-direction:column;align-items:center;padding:60px 22px 24px;transition:opacity .38s,transform .38s;z-index:5}
+.hs.gone{opacity:0;transform:scale(.95);pointer-events:none}
+.hs-time{font-family:'DM Mono',monospace;font-size:52px;font-weight:300;color:#fff;letter-spacing:-2px;margin-top:18px}
+.hs-date{font-size:14px;color:rgba(255,255,255,.42);margin-top:4px}
+.notif{width:100%;background:rgba(255,255,255,.12);border:.5px solid rgba(255,255,255,.2);border-radius:20px;padding:13px 15px;margin-top:36px;cursor:pointer;transition:transform .12s;animation:nslide .5s ease .35s both}
+.notif:active{transform:scale(.97)}
+@keyframes nslide{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:translateY(0)}}
+.ni{display:flex;align-items:center;gap:7px;margin-bottom:5px}
+.ni-dot{width:20px;height:20px;border-radius:5px;background:#1a6fff;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;flex-shrink:0;font-weight:600}
+.ni-app{font-size:11px;color:rgba(255,255,255,.48);text-transform:uppercase;letter-spacing:.5px;font-weight:500;flex:1}
+.ni-t{font-size:11px;color:rgba(255,255,255,.28)}
+.nt{font-size:13px;font-weight:600;color:#fff;margin-bottom:2px}
+.nb{font-size:12px;color:rgba(255,255,255,.52);line-height:1.4}
+.hs-hint{margin-top:14px;font-size:11px;color:rgba(255,255,255,.18);letter-spacing:.5px}
+.nv{position:absolute;inset:0;background:#f4f3ef;display:flex;flex-direction:column;opacity:0;transform:translateY(28px);pointer-events:none;transition:opacity .38s,transform .38s;z-index:4}
+.nv.on{opacity:1;transform:translateY(0);pointer-events:all}
+.nvh{background:#fff;padding:50px 20px 14px;border-bottom:.5px solid #e0deda;flex-shrink:0}
+.nvh-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.hrlbl{font-size:13px;color:#1a6fff;cursor:pointer;font-weight:500;letter-spacing:.2px}
+.nvh-title{font-size:19px;font-weight:600;color:#0a0a0f;line-height:1.25;outline:none;border-radius:4px;padding:2px 4px;margin:-2px -4px}
+.nvh-title:focus{background:#eef4ff}
+.nvh-sub{font-size:12px;color:#8a8880;margin-top:3px;outline:none;border-radius:3px;padding:1px 4px;margin-left:-4px}
+.nvh-sub:focus{background:#eef4ff}
+.scroll{flex:1;overflow-y:auto;padding-bottom:120px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+.scroll::-webkit-scrollbar{display:none}
+.card{background:#fff;margin:12px 16px 0;border-radius:14px;padding:16px;border:.5px solid #e0deda}
+.clabel{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:#a8a6a0;font-weight:600;margin-bottom:12px;outline:none;border-radius:2px}
+.clabel:focus{background:#eef4ff}
+.arow{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:.5px solid #f0eeea}
+.arow:last-of-type{border-bottom:none}
+.av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+.avb{background:#d4e4ff;color:#1a4fa0}.avt{background:#cdf0e5;color:#0a6e56}.avc{background:#fde0d5;color:#9a3c1d}
+.avp{background:#e5e2fd;color:#4a3eb0}.ava{background:#fdecc8;color:#7a4a0a}.avg2{background:#daf0c0;color:#3a6010}
+.avk{background:#fad8e6;color:#8a2050}.avz{background:#e8e6e2;color:#4a4a45}
+.ai{flex:1}
+.an{font-size:13px;font-weight:500;color:#0a0a0f;outline:none;border-radius:3px;padding:1px 3px;margin:-1px -3px;display:inline-block}
+.an:focus{background:#eef4ff}
+.ar{font-size:11px;color:#8a8880;outline:none;border-radius:3px;padding:1px 3px;margin:-1px -3px;display:inline-block}
+.ar:focus{background:#eef4ff}
+.badge{font-size:10px;padding:3px 8px;border-radius:20px;font-weight:500}
+.blead{background:#1a6fff18;color:#1a6fff}.bview{background:#f0eeea;color:#6a6a65}
+.vmb{width:100%;margin-top:10px;padding:8px;background:#f4f3ef;border:.5px solid #e0deda;border-radius:8px;font-size:12px;color:#1a6fff;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500}
+.xtra{display:none}.xtra.on{display:block}
+.sh{font-size:13px;font-weight:600;color:#0a0a0f;margin:16px 0 8px;padding-bottom:6px;border-bottom:.5px solid #f0eeea;outline:none;border-radius:4px;padding-left:3px;margin-left:-3px}
+.sh:focus{background:#eef4ff}
+.sh:first-child{margin-top:0}
+.eb{font-size:13px;color:#2a2a25;line-height:1.65;outline:none;border-radius:6px;padding:4px 6px;margin:-4px -6px;cursor:text}
+.eb:focus{background:#eef4ff;outline:1px solid #1a6fff30}
+.irow{margin-bottom:10px}
+.ilabel{font-size:12px;font-weight:600;color:#0a0a0f;display:block;outline:none;border-radius:3px;padding:1px 3px;margin-left:-3px;margin-bottom:2px}
+.ilabel:focus{background:#eef4ff}
+.idesc{font-size:12px;color:#5a5a55;line-height:1.5;outline:none;border-radius:4px;padding:2px 4px;margin:-2px -4px;cursor:text}
+.idesc:focus{background:#eef4ff;outline:1px solid #1a6fff30}
+.prow{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:.5px solid #f0eeea}
+.prow:last-child{border-bottom:none}
+.pdot{width:5px;height:5px;border-radius:50%;background:#1a6fff;flex-shrink:0;margin-top:6px}
+.pt{flex:1;font-size:12px;color:#2a2a25;line-height:1.5;outline:none;border-radius:4px;padding:2px 4px;margin:-2px -4px;cursor:text}
+.pt:focus{background:#eef4ff}
+.pts{font-size:11px;color:#1a6fff;font-family:'DM Mono',monospace;cursor:pointer;flex-shrink:0;margin-top:3px;text-decoration:underline;text-underline-offset:2px;user-select:none}
+.pts:active{opacity:.6}
+.rrow{margin-bottom:10px}
+.rlabel{font-size:12px;font-weight:600;color:#0a0a0f;display:block;outline:none;border-radius:3px;padding:1px 3px;margin-left:-3px;margin-bottom:2px}
+.rlabel:focus{background:#eef4ff}
+.rdesc{font-size:12px;color:#5a5a55;line-height:1.5;outline:none;border-radius:4px;padding:2px 4px;margin:-2px -4px;cursor:text}
+.rdesc:focus{background:#eef4ff;outline:1px solid #1a6fff30}
+.pill{font-size:10px;padding:2px 7px;border-radius:20px;font-weight:500;margin-left:5px}
+.pok{background:#cdf0e5;color:#0a6e56}
+.anatrow{display:flex;padding:5px 0;border-bottom:.5px solid #f0eeea;gap:8px;align-items:flex-start}
+.anatrow:last-child{border-bottom:none}
+.ak{font-size:12px;font-weight:600;color:#0a0a0f;width:105px;flex-shrink:0;outline:none;border-radius:3px;padding:1px 3px;margin-left:-3px}
+.ak:focus{background:#eef4ff}
+.av2{flex:1;font-size:12px;color:#5a5a55;outline:none;border-radius:3px;padding:1px 4px;margin:-1px -4px;cursor:text}
+.av2:focus{background:#eef4ff;outline:1px solid #1a6fff30}
+.ctext{font-size:13px;color:#2a2a25;line-height:1.7;outline:none;border-radius:6px;padding:4px 6px;margin:-4px -6px;cursor:text}
+.ctext:focus{background:#eef4ff;outline:1px solid #1a6fff30}
+.socard{margin:12px 16px 0;background:#fff;border-radius:14px;padding:20px;border:1.5px dashed #d0ceca;transition:border-color .4s,background .4s}
+.socard.signed{border-color:#1a9e75;border-style:solid;background:#f0faf6}
+.sotitle{font-size:13px;font-weight:600;color:#0a0a0f;margin-bottom:4px;outline:none;border-radius:3px;padding:1px 3px;margin-left:-3px}
+.sotitle:focus{background:#eef4ff}
+.sosub{font-size:11px;color:#a8a6a0;margin-bottom:14px}
+.sigwrap{background:#f9f8f5;border:.5px solid #d0ceca;border-radius:10px;height:72px;position:relative;overflow:hidden;touch-action:none;margin-bottom:8px;cursor:crosshair}
+.sigwrap canvas{position:absolute;inset:0;width:100%;height:100%}
+.sigph{font-size:12px;color:#c8c6c0;pointer-events:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.calliprev{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;font-family:'Loved by the King',cursive;font-size:32px;color:#1a1a22;padding:0 12px;text-align:center;overflow:hidden;line-height:1.2}
+.sname{width:100%;border:.5px solid #d0ceca;border-radius:8px;padding:9px 12px;font-size:13px;font-family:'DM Sans',sans-serif;color:#0a0a0f;background:#f9f8f5;margin-bottom:10px;outline:none}
+.sname:focus{border-color:#1a6fff;background:#fff}
+.sbtn{width:100%;padding:10px;background:#0a0a0f;color:#fff;border:none;border-radius:10px;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer}
+.sbtn:active{opacity:.85}
+.sigdone{display:none;text-align:center;padding:4px 0 6px}
+.sigdone.on{display:block}
+.scheck{width:32px;height:32px;border-radius:50%;background:#1a9e75;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:14px;color:#fff}
+.sdname{font-family:'Loved by the King',cursive;font-size:28px;color:#0a0a0f;line-height:1.2;margin-bottom:2px}
+.sdtime{font-size:11px;color:#a8a6a0;font-family:'DM Mono',monospace}
+.sclear{font-size:11px;color:#1a6fff;cursor:pointer;text-align:center;margin-top:10px;padding:3px}
+.bar{position:absolute;bottom:0;left:0;right:0;background:#fff;border-top:.5px solid #e0deda;padding:10px 16px 28px;display:flex;gap:8px;align-items:center;z-index:10}
+.bso{flex:1;padding:11px 8px;background:#0a0a0f;color:#fff;border:none;border-radius:12px;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;transition:background .3s}
+.bso:active{opacity:.85}
+.bso.done{background:#1a9e75}
+.bemr{flex:1;padding:11px 8px;background:#f0eeea;color:#b0aea8;border:.5px solid #d8d5d0;border-radius:12px;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:not-allowed;transition:all .3s}
+.bemr.on{background:#1a6fff;color:#fff;border-color:#1a6fff;cursor:pointer}
+.bmore{width:42px;height:44px;border-radius:12px;background:#f4f3ef;border:.5px solid #e0deda;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;position:relative}
+.dots{display:flex;flex-direction:column;gap:3px}
+.dot{width:3.5px;height:3.5px;border-radius:50%;background:#4a4a45}
+.dmenu{position:absolute;bottom:52px;right:0;width:172px;background:#fff;border:.5px solid #d8d5d0;border-radius:12px;overflow:hidden;display:none;z-index:20;box-shadow:0 -6px 20px rgba(0,0,0,.07)}
+.dmenu.on{display:block;animation:dup .16s ease}
+@keyframes dup{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.ditem{padding:11px 14px;font-size:13px;color:#0a0a0f;cursor:pointer;border-bottom:.5px solid #f0eeea;display:flex;align-items:center;gap:9px}
+.ditem:last-child{border-bottom:none}
+.ditem:active{background:#f4f3ef}
+.ditem.dis{color:#b0aea8;cursor:default}
+.ditem.dis:active{background:#fff}
+.fvid{position:absolute;width:264px;height:163px;border-radius:14px;overflow:hidden;z-index:50;border:1.5px solid #2a2a35;display:none;cursor:grab;transition:top .22s cubic-bezier(.34,1.56,.64,1),bottom .22s cubic-bezier(.34,1.56,.64,1)}
+.fvid.on{display:block;animation:vpop .22s ease}
+.fvid.snapping{transition:top .25s cubic-bezier(.34,1.56,.64,1),bottom .25s cubic-bezier(.34,1.56,.64,1),left .25s cubic-bezier(.34,1.56,.64,1)}
+@keyframes vpop{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+.fvid.dragging{cursor:grabbing;transition:none}
+.vclose{position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:51;font-size:11px;color:#fff;line-height:1;font-weight:600}
+.fvid iframe{width:100%;height:100%;border:none;display:block;pointer-events:none}
+.fvid.on iframe{pointer-events:auto}
+.snap-indicator{position:absolute;left:0;right:0;height:3px;background:#1a6fff;opacity:0;transition:opacity .15s;z-index:49;pointer-events:none}
+.snap-indicator.top{top:0;border-radius:0 0 3px 3px}
+.snap-indicator.bottom{bottom:68px;border-radius:3px 3px 0 0}
+.snap-indicator.show{opacity:1}
+</style>
+
+<div class="scene">
+<div class="phone">
+<div class="screen">
+
+<div class="snap-indicator top" id="snapTop"></div>
+<div class="snap-indicator bottom" id="snapBot"></div>
+
+<div class="hs" id="hs">
+  <div class="hs-time">09:41</div>
+  <div class="hs-date">Tuesday, 24 March 2026</div>
+  <div class="notif" onclick="openNotes()">
+    <div class="ni"><div class="ni-dot">+</div><span class="ni-app">SurgicalOS</span><span class="ni-t">now</span></div>
+    <div class="nt">Op-notes ready for review</div>
+    <div class="nb">RARP — your notes are ready to be reviewed and signed off.</div>
+  </div>
+  <div class="hs-hint">tap notification to open</div>
+</div>
+
+<div class="nv" id="nv">
+  <div class="nvh">
+    <div class="nvh-row">
+      <span class="hrlbl">OP-NOTES</span>
+      <span class="hrlbl">View full case &rsaquo;</span>
+    </div>
+    <div class="nvh-title" contenteditable="true">Robotic-Assisted Radical Prostatectomy</div>
+    <div class="nvh-sub" contenteditable="true">24 Mar 2026 &nbsp;·&nbsp; 09:14 – 11:52</div>
+  </div>
+
+  <div class="scroll" id="scrl">
+    <div class="card">
+      <div class="clabel" contenteditable="true">Surgical Team (3)</div>
+      <div class="arow"><div class="av avb">MH</div><div class="ai"><div class="an" contenteditable="true">Mr. Marcus Harlow</div><br><div class="ar" contenteditable="true">Lead Surgeon</div></div><span class="badge blead">Lead</span></div>
+      <div class="arow"><div class="av avt">SR</div><div class="ai"><div class="an" contenteditable="true">Dr. Sofia Renner</div><br><div class="ar" contenteditable="true">Surgical Registrar</div></div></div>
+      <div class="arow"><div class="av avc">JP</div><div class="ai"><div class="an" contenteditable="true">James Patel</div><br><div class="ar" contenteditable="true">Scrub Nurse</div></div></div>
+    </div>
+
+    <div class="card">
+      <div class="clabel" contenteditable="true">Stream Attendees (8)</div>
+      <div class="arow"><div class="av avp">AL</div><div class="ai"><div class="an" contenteditable="true">Dr. Amelia Liu</div><br><div class="ar" contenteditable="true">Urology Fellow</div></div><span class="badge bview">Viewing</span></div>
+      <div class="arow"><div class="av ava">TK</div><div class="ai"><div class="an" contenteditable="true">Dr. Tom Kessler</div><br><div class="ar" contenteditable="true">Resident, PGY-3</div></div><span class="badge bview">Viewing</span></div>
+      <div class="arow"><div class="av avg2">NB</div><div class="ai"><div class="an" contenteditable="true">Nina Barros</div><br><div class="ar" contenteditable="true">Med Student</div></div><span class="badge bview">Viewing</span></div>
+      <div class="xtra" id="xtra">
+        <div class="arow"><div class="av avk">CW</div><div class="ai"><div class="an" contenteditable="true">Dr. Clara Walsh</div><br><div class="ar" contenteditable="true">Anaesthetist</div></div><span class="badge bview">Viewing</span></div>
+        <div class="arow"><div class="av avz">RO</div><div class="ai"><div class="an" contenteditable="true">Dr. Raj Okafor</div><br><div class="ar" contenteditable="true">Registrar</div></div><span class="badge bview">Viewing</span></div>
+        <div class="arow"><div class="av avb">EF</div><div class="ai"><div class="an" contenteditable="true">Emma Foster</div><br><div class="ar" contenteditable="true">Circulating Nurse</div></div><span class="badge bview">Viewing</span></div>
+        <div class="arow"><div class="av avt">DM</div><div class="ai"><div class="an" contenteditable="true">Dr. Daniel Morse</div><br><div class="ar" contenteditable="true">Observer, Visiting</div></div><span class="badge bview">Viewing</span></div>
+        <div class="arow"><div class="av avc">YS</div><div class="ai"><div class="an" contenteditable="true">Yuki Saito</div><br><div class="ar" contenteditable="true">ODP Technician</div></div><span class="badge bview">Viewing</span></div>
+      </div>
+      <button class="vmb" id="vmb" onclick="toggleX()">View 5 more attendees</button>
+    </div>
+
+    <div class="card">
+      <div class="sh" contenteditable="true">1. Summary</div>
+      <div class="eb" contenteditable="true">This video segment depicts a phase of robotic-assisted radical prostatectomy (RARP), focused on posterior dissection and seminal vesicle/vas deferens dissection. The surgical approach is transperitoneal. Tissue appears moderately fibrotic with some adhesions, suggesting intermediate difficulty. The field is well-illuminated and dissection is precise, indicating an experienced surgical team.</div>
+    </div>
+
+    <div class="card">
+      <div class="sh" contenteditable="true">2. Temporal Phase Identification</div>
+      <div class="eb" contenteditable="true">Current stage: Seminal Vesicle and Vas Deferens Dissection with concurrent posterior dissection. The surgeon is dissecting the seminal vesicles from the posterior prostate, with the vas deferens likely being mobilized or transected. This phase follows lateral pedicle control and precedes apical dissection and urethral transection.</div>
+    </div>
+
+    <div class="card">
+      <div class="sh" contenteditable="true">3. Instrument &amp; Action Tracking</div>
+      <div class="irow"><div class="ilabel" contenteditable="true">Arm 1 — ProGrasp Forceps</div><div class="idesc" contenteditable="true">Traction and retraction of surrounding tissues. Counter-traction during dissection.</div></div>
+      <div class="irow"><div class="ilabel" contenteditable="true">Arm 2 — Fenestrated Bipolar Forceps</div><div class="idesc" contenteditable="true">Precise bipolar coagulation of small vessels. Intermittently activated to control bleeding.</div></div>
+      <div class="irow"><div class="ilabel" contenteditable="true">Arm 3 — Monopolar Curved Scissors</div><div class="idesc" contenteditable="true">Primary dissecting instrument. Cutting connective tissue attaching seminal vesicle to prostate.</div></div>
+      <div class="irow" style="margin-bottom:0"><div class="ilabel" contenteditable="true">Arm 4 — Not visible in frame</div><div class="idesc" contenteditable="true">Not in use or obscured.</div></div>
+      <div class="sh" style="margin-top:14px" contenteditable="true">Phases</div>
+      <div class="prow"><div class="pdot"></div><div class="pt" contenteditable="true">Dissecting the seminal vesicle from the posterior prostate</div><div class="pts" data-start="180" onclick="openVid(this)">00:04</div></div>
+      <div class="prow"><div class="pdot"></div><div class="pt" contenteditable="true">Transecting or mobilizing the vas deferens</div><div class="pts" data-start="340" onclick="openVid(this)">01:12</div></div>
+      <div class="prow"><div class="pdot"></div><div class="pt" contenteditable="true">Using monopolar scissors to cut tissue planes</div><div class="pts" data-start="390" onclick="openVid(this)">02:38</div></div>
+      <div class="prow"><div class="pdot"></div><div class="pt" contenteditable="true">Bipolar coagulation to control small vessels and prevent bleeding</div><div class="pts" data-start="450" onclick="openVid(this)">04:05</div></div>
+      <div class="prow"><div class="pdot"></div><div class="pt" contenteditable="true">Retraction of tissue with ProGrasp forceps to improve visualisation</div><div class="pts" data-start="520" onclick="openVid(this)">05:50</div></div>
+    </div>
+
+    <div class="card">
+      <div class="sh" contenteditable="true">4. Safety &amp; Risk Metrics</div>
+      <div class="rrow"><div class="rlabel" contenteditable="true">Neurovascular Bundles (NVBs) <span class="pill pok">Low risk</span></div><div class="rdesc" contenteditable="true">Not clearly visible. Dissection is posterior and cephalad, away from lateral NVBs. Care required to avoid thermal spread.</div></div>
+      <div class="rrow"><div class="rlabel" contenteditable="true">External Urethral Sphincter <span class="pill pok">Safe</span></div><div class="rdesc" contenteditable="true">Not visible; dissection not yet at the apex.</div></div>
+      <div class="rrow"><div class="rlabel" contenteditable="true">Safety of Margin <span class="pill pok">Intact</span></div><div class="rdesc" contenteditable="true">Prostatic capsule appears intact. No overt breaches noted.</div></div>
+      <div class="rrow" style="margin-bottom:0"><div class="rlabel" contenteditable="true">Thermal Spread <span class="pill pok">Controlled</span></div><div class="rdesc" contenteditable="true">Bipolar used with precision. No visible thermal injury noted.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="sh" contenteditable="true">5. Adverse Events</div>
+      <div class="rrow"><div class="rlabel" contenteditable="true">Vascular Incidents <span class="pill pok">Minimal</span></div><div class="rdesc" contenteditable="true">Minimal venous oozing from small vessels in seminal vesicle bed. No arterial bleeding.</div></div>
+      <div class="rrow"><div class="rlabel" contenteditable="true">Near Misses <span class="pill pok">None</span></div><div class="rdesc" contenteditable="true">No unintended contact with rectum or ureters. Rectal wall appears intact.</div></div>
+      <div class="rrow" style="margin-bottom:0"><div class="rlabel" contenteditable="true">Technical Issues <span class="pill pok">None</span></div><div class="rdesc" contenteditable="true">No suture breakage or robotic arm clashing observed.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="sh" contenteditable="true">6. Anatomical Inventory</div>
+      <div class="anatrow"><div class="ak" contenteditable="true">Prostate</div><div class="av2" contenteditable="true">Partially visible, posterior aspect being dissected</div></div>
+      <div class="anatrow"><div class="ak" contenteditable="true">Seminal Vesicles</div><div class="av2" contenteditable="true">Clearly visible and actively being dissected</div></div>
+      <div class="anatrow"><div class="ak" contenteditable="true">Vas Deferens</div><div class="av2" contenteditable="true">Likely being mobilized or transected</div></div>
+      <div class="anatrow"><div class="ak" contenteditable="true">Bladder</div><div class="av2" contenteditable="true">Not directly visible; likely retracted superiorly</div></div>
+      <div class="anatrow"><div class="ak" contenteditable="true">Rectal Wall</div><div class="av2" contenteditable="true">Visible in background, intact</div></div>
+      <div class="anatrow"><div class="ak" contenteditable="true">Urethra</div><div class="av2" contenteditable="true">Not visible; dissection not yet at apex</div></div>
+      <div class="anatrow"><div class="ak" contenteditable="true">Peritoneal Fat</div><div class="av2" contenteditable="true">Present, confirming transperitoneal approach</div></div>
+    </div>
+
+    <div class="card">
+      <div class="sh" contenteditable="true">Conclusion</div>
+      <div class="ctext" contenteditable="true">This segment represents a precise and controlled dissection of the seminal vesicle and vas deferens during robotic radical prostatectomy. The surgeon is using appropriate instruments with excellent visualisation and haemostasis. The procedure is progressing safely with no adverse events, and critical structures are preserved. The next phase will likely involve apical dissection and urethral transection.</div>
+    </div>
+
+    <div class="socard" id="socard">
+      <div id="soform">
+        <div class="sotitle" contenteditable="true">Sign off these notes</div>
+        <div class="sosub">Draw your signature or type your name below</div>
+        <div class="sigwrap" id="sigwrap">
+          <canvas id="sigc"></canvas>
+          <div class="sigph" id="sigph">Sign here</div>
+          <div class="calliprev" id="calliprev"></div>
+        </div>
+        <input class="sname" id="sname" type="text" placeholder="Full name" oninput="updateCalli(this.value)" />
+        <button class="sbtn" onclick="doSignoff()">Confirm sign-off</button>
+      </div>
+      <div class="sigdone" id="sigdone">
+        <div class="scheck">&#10003;</div>
+        <div class="sdname" id="sdname"></div>
+        <div class="sdtime" id="sdtime"></div>
+        <div class="sclear" onclick="revert()">Clear signature</div>
+      </div>
+    </div>
+    <div id="scrollanchor" style="height:20px"></div>
+  </div>
+
+  <div class="bar">
+    <button class="bso" id="bso" onclick="scrollSO()">Sign off</button>
+    <button class="bemr" id="bemr">Sync with EMR</button>
+    <div class="bmore" onclick="toggleMenu(event)">
+      <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="dmenu" id="dmenu">
+        <div class="ditem" onclick="ma('dl')">&#8595;&nbsp; Download PDF</div>
+        <div class="ditem" onclick="ma('sh')">&#8599;&nbsp; Share...</div>
+        <div class="ditem dis">&#8617;&nbsp; Revert to original</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fvid" id="fvid">
+    <div class="vclose" onclick="closeVid()">&#10005;</div>
+    <iframe id="viframe" src="" allowfullscreen allow="autoplay;encrypted-media"></iframe>
+  </div>
+</div>
+
+</div>
+</div>
+</div>
+
+<script>
+const VID_ID='56Jav9AolC0';
+const PHONE_W=375, PHONE_H=812;
+const FV_W=264, FV_H=163;
+const SNAP_ZONE=80;
+const BAR_H=68;
+const TOP_PAD=10;
+
+function openNotes(){
+  document.getElementById('hs').classList.add('gone');
+  setTimeout(()=>document.getElementById('nv').classList.add('on'),200);
+}
+function toggleX(){
+  const x=document.getElementById('xtra'),b=document.getElementById('vmb');
+  const s=x.classList.toggle('on');
+  b.textContent=s?'Show fewer attendees':'View 5 more attendees';
+}
+function scrollSO(){
+  const sc=document.getElementById('scrl');
+  sc.scrollTo({top:sc.scrollHeight,behavior:'smooth'});
+}
+function updateCalli(v){
+  const p=document.getElementById('calliprev'),ph=document.getElementById('sigph');
+  if(v.trim()){p.textContent=v;ph.style.display='none';}
+  else{p.textContent='';ph.style.display='block';}
+}
+function doSignoff(){
+  const n=document.getElementById('sname').value.trim();
+  if(!n){document.getElementById('sname').focus();document.getElementById('sname').style.borderColor='#e24b4a';return;}
+  const now=new Date();
+  const t=now.toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  document.getElementById('sdname').textContent=n;
+  document.getElementById('sdtime').textContent='Signed '+t;
+  document.getElementById('soform').style.display='none';
+  document.getElementById('sigdone').classList.add('on');
+  document.getElementById('socard').classList.add('signed');
+  const bso=document.getElementById('bso');
+  bso.textContent='Signed \u2713';bso.classList.add('done');bso.onclick=null;
+  document.getElementById('bemr').classList.add('on');
+}
+function revert(){
+  document.getElementById('soform').style.display='block';
+  document.getElementById('sigdone').classList.remove('on');
+  document.getElementById('socard').classList.remove('signed');
+  document.getElementById('sname').value='';
+  document.getElementById('sname').style.borderColor='';
+  updateCalli('');
+  sigCtx.clearRect(0,0,sigC.width,sigC.height);
+  const bso=document.getElementById('bso');
+  bso.textContent='Sign off';bso.classList.remove('done');bso.onclick=scrollSO;
+  document.getElementById('bemr').classList.remove('on');
+}
+function openVid(el){
+  const start=el.getAttribute('data-start')||'180';
+  const fv=document.getElementById('fvid');
+  document.getElementById('viframe').src='https://www.youtube.com/embed/'+VID_ID+'?start='+start+'&autoplay=1&rel=0&modestbranding=1';
+  fv.classList.remove('snapping');
+  fv.style.left=((PHONE_W-FV_W)/2)+'px';
+  fv.style.top='auto';
+  fv.style.bottom=(BAR_H+12)+'px';
+  fv.classList.add('on');
+}
+function closeVid(){
+  const fv=document.getElementById('fvid');
+  fv.classList.remove('on');
+  setTimeout(()=>{document.getElementById('viframe').src='';},300);
+}
+function toggleMenu(e){e.stopPropagation();document.getElementById('dmenu').classList.toggle('on');}
+function ma(t){document.getElementById('dmenu').classList.remove('on');if(t==='dl')alert('PDF download — coming soon');if(t==='sh')alert('Share — coming soon');}
+document.addEventListener('click',()=>document.getElementById('dmenu').classList.remove('on'));
+
+const sigC=document.getElementById('sigc');
+const sigCtx=sigC.getContext('2d');
+let drawing=false;
+function resizeSig(){const w=document.getElementById('sigwrap');sigC.width=w.clientWidth;sigC.height=w.clientHeight;}
+setTimeout(resizeSig,400);
+function gp(e){const r=sigC.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
+function sd(e){if(document.getElementById('sname').value.trim())return;drawing=true;const p=gp(e);sigCtx.beginPath();sigCtx.moveTo(p.x,p.y);document.getElementById('sigph').style.display='none';}
+function dr(e){if(!drawing)return;const p=gp(e);sigCtx.lineTo(p.x,p.y);sigCtx.strokeStyle='#0a0a0f';sigCtx.lineWidth=2;sigCtx.lineCap='round';sigCtx.lineJoin='round';sigCtx.stroke();}
+function ed(){drawing=false;}
+sigC.addEventListener('mousedown',sd);sigC.addEventListener('mousemove',dr);sigC.addEventListener('mouseup',ed);
+sigC.addEventListener('touchstart',e=>{e.preventDefault();sd(e.touches[0]);},{passive:false});
+sigC.addEventListener('touchmove',e=>{e.preventDefault();dr(e.touches[0]);},{passive:false});
+sigC.addEventListener('touchend',ed);
+
+const fv=document.getElementById('fvid');
+const snapTop=document.getElementById('snapTop');
+const snapBot=document.getElementById('snapBot');
+let ds={on:false,sx:0,sy:0,ox:0,oy:0};
+
+function getPhoneRect(){return document.querySelector('.phone').getBoundingClientRect();}
+
+function snapVideo(currentTop){
+  const pr=getPhoneRect();
+  const relTop=currentTop-pr.top;
+  fv.classList.add('snapping');
+  if(relTop<SNAP_ZONE){
+    fv.style.top=TOP_PAD+'px';
+    fv.style.bottom='auto';
+    fv.style.left=((PHONE_W-FV_W)/2)+'px';
+  } else if(relTop+FV_H>PHONE_H-BAR_H-SNAP_ZONE){
+    fv.style.top='auto';
+    fv.style.bottom=(BAR_H+10)+'px';
+    fv.style.left=((PHONE_W-FV_W)/2)+'px';
+  }
+  snapTop.classList.remove('show');
+  snapBot.classList.remove('show');
+  setTimeout(()=>fv.classList.remove('snapping'),300);
+}
+
+function startDrag(clientX,clientY){
+  const r=fv.getBoundingClientRect();
+  ds={on:true,sx:clientX,sy:clientY,ox:r.left,oy:r.top};
+  fv.classList.add('dragging');
+  fv.style.bottom='auto';
+  fv.style.top=r.top-getPhoneRect().top+'px';
+  fv.style.left=r.left-getPhoneRect().left+'px';
+}
+function moveDrag(clientX,clientY){
+  if(!ds.on)return;
+  const pr=getPhoneRect();
+  let nx=ds.ox-pr.left+(clientX-ds.sx);
+  let ny=ds.oy-pr.top+(clientY-ds.sy);
+  nx=Math.max(0,Math.min(PHONE_W-FV_W,nx));
+  ny=Math.max(0,Math.min(PHONE_H-FV_H-BAR_H,ny));
+  fv.style.left=nx+'px';
+  fv.style.top=ny+'px';
+  const nearTop=ny<SNAP_ZONE;
+  const nearBot=ny+FV_H>PHONE_H-BAR_H-SNAP_ZONE;
+  snapTop.classList.toggle('show',nearTop);
+  snapBot.classList.toggle('show',nearBot);
+}
+function endDrag(clientX,clientY){
+  if(!ds.on)return;
+  ds.on=false;
+  fv.classList.remove('dragging');
+  const pr=getPhoneRect();
+  const curTop=parseFloat(fv.style.top)+pr.top;
+  snapVideo(curTop);
+  document.removeEventListener('mousemove',onMM);document.removeEventListener('mouseup',onMU);
+  document.removeEventListener('touchmove',onTM);document.removeEventListener('touchend',onTU);
+}
+function onMM(e){moveDrag(e.clientX,e.clientY);}
+function onMU(e){endDrag(e.clientX,e.clientY);}
+function onTM(e){e.preventDefault();moveDrag(e.touches[0].clientX,e.touches[0].clientY);}
+function onTU(e){endDrag();}
+
+fv.addEventListener('mousedown',function(e){
+  if(e.target.classList.contains('vclose'))return;
+  e.preventDefault();
+  startDrag(e.clientX,e.clientY);
+  document.addEventListener('mousemove',onMM);
+  document.addEventListener('mouseup',onMU);
+});
+fv.addEventListener('touchstart',function(e){
+  if(e.target.classList.contains('vclose'))return;
+  e.preventDefault();
+  startDrag(e.touches[0].clientX,e.touches[0].clientY);
+  document.addEventListener('touchmove',onTM,{passive:false});
+  document.addEventListener('touchend',onTU);
+},{passive:false});
+</script>
