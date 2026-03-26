@@ -2,1300 +2,1678 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Operative Note — Robotic Partial Nephrectomy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Lap Chole — Op Note</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Loved+by+the+King&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{touch-action:manipulation}
+input,select,textarea,button{touch-action:manipulation;font-size:16px}
 
-  :root {
-    --font: 'DM Sans', sans-serif;
-    --bg: #f5f4f1;
-    --surface: #ffffff;
-    --border: #e0ddd6;
-    --border-strong: #c8c4bc;
-    --text: #1a1916;
-    --text-2: #5a5750;
-    --text-3: #9a968e;
-    --accent: #1a3a5c;
-    --accent-light: #e8eef5;
-    --rcs: #c0392b;
-    --rcs-bg: #fdf0ee;
-    --girft: #1a6b9a;
-    --girft-bg: #e8f2fa;
-    --both: #1a7a4a;
-    --both-bg: #e8f5ee;
-    --warn-bg: #fff8e6;
-    --warn: #a05c00;
-    --radius: 8px;
-    --radius-lg: 12px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  }
+:root{
+  --bg:#f9f9f8;
+  --surface:#ffffff;
+  --surface2:#f3f3f1;
+  --border:#e8e8e5;
+  --border2:#f0f0ee;
+  --text:#111110;
+  --text2:#6f6f6a;
+  --text3:#b0b0aa;
+  --accent:#111110;
+  --blue:#2563eb;
+  --blue-light:#eff6ff;
+  --green:#15803d;
+  --green-light:#f0fdf4;
+  --red:#dc2626;
+  --red-light:#fef2f2;
+  --amber:#b45309;
+  --amber-light:#fffbeb;
+  --font:'Sora',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --calli:'Loved by the King',cursive;
+}
 
-  html { font-size: 15px; }
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+}
 
-  body {
-    font-family: var(--font);
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    line-height: 1.6;
-  }
+.shell{width:100%;max-width:480px;min-height:100vh;background:var(--bg);position:relative}
 
-  /* ── LAYOUT ── */
-  .shell {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 2rem 1.5rem 4rem;
-  }
+/* ══════════ HOMESCREEN ══════════ */
+.homescreen{
+  position:fixed;inset:0;max-width:480px;margin:0 auto;
+  background:linear-gradient(160deg,#0a1628 0%,#060609 70%);
+  display:flex;flex-direction:column;
+  padding:70px 24px 48px;
+  z-index:80;
+  transition:opacity .4s cubic-bezier(.16,1,.3,1),transform .4s cubic-bezier(.16,1,.3,1);
+}
+.homescreen.gone{opacity:0;transform:scale(.94);pointer-events:none}
+.hs-time{font-size:80px;font-weight:300;color:#fff;letter-spacing:-5px;text-align:center;line-height:1;margin-top:48px}
+.hs-date{font-size:15px;color:rgba(255,255,255,.4);text-align:center;margin-top:8px}
+.hs-spacer{flex:1}
+.notif-card{
+  background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);
+  border-radius:20px;padding:14px 16px;cursor:pointer;margin-top:32px;
+  animation:slideUp .55s cubic-bezier(.16,1,.3,1) .5s both;
+  transition:transform .12s,background .12s;
+}
+.notif-card:active{transform:scale(.97);background:rgba(255,255,255,.14)}
+@keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.notif-top{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.notif-dot{width:22px;height:22px;border-radius:7px;background:#2563eb;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.notif-dot .material-icons-round{font-size:14px;color:#fff}
+.notif-app{font-size:11px;color:rgba(255,255,255,.45);font-weight:600;letter-spacing:.5px;flex:1;text-transform:uppercase;font-family:var(--mono)}
+.notif-ts{font-size:11px;color:rgba(255,255,255,.25);font-family:var(--mono)}
+.notif-title{font-size:14px;font-weight:600;color:#fff;margin-bottom:3px}
+.notif-body{font-size:13px;color:rgba(255,255,255,.5);line-height:1.45}
+.hs-hint{text-align:center;font-size:10px;color:rgba(255,255,255,.18);letter-spacing:1.5px;margin-top:14px;text-transform:uppercase;font-family:var(--mono);animation:slideUp .4s cubic-bezier(.16,1,.3,1) .9s both}
 
-  /* ── HEADER ── */
-  .page-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    padding-bottom: 1.25rem;
-    border-bottom: 1.5px solid var(--border-strong);
-  }
-  .page-title {
-    font-size: 1.35rem;
-    font-weight: 600;
-    color: var(--accent);
-    letter-spacing: -0.01em;
-    line-height: 1.3;
-  }
-  .page-subtitle {
-    font-size: 0.8rem;
-    color: var(--text-3);
-    margin-top: 3px;
-    font-weight: 400;
-  }
-  .header-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+/* ══════════ APP ══════════ */
+.app{
+  position:fixed;inset:0;max-width:480px;margin:0 auto;
+  display:flex;flex-direction:column;background:var(--bg);
+  opacity:0;transform:translateY(28px);pointer-events:none;
+  transition:opacity .45s cubic-bezier(.16,1,.3,1),transform .45s cubic-bezier(.16,1,.3,1);
+}
+.app.visible{opacity:1;transform:translateY(0);pointer-events:all}
 
-  /* ── TABS ── */
-  .tab-bar-outer {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    margin-bottom: 1.75rem;
-    border-bottom: 2px solid var(--border);
-  }
-  .tab-bar-outer::-webkit-scrollbar { display: none; }
-  .tab-bar {
-    display: flex;
-    gap: 0;
-    min-width: max-content;
-  }
-  .tab-btn {
-    flex: 0 0 auto;
-    width: 160px;
-    padding: 10px 16px 11px;
-    border: none;
-    border-bottom: 5px solid transparent;
-    margin-bottom: -2px;
-    background: transparent;
-    border-radius: 0;
-    font-family: var(--font);
-    font-size: 0.82rem;
-    font-weight: 500;
-    color: var(--text-3);
-    cursor: pointer;
-    transition: color 0.15s, border-color 0.15s;
-    white-space: nowrap;
-    text-align: center;
-    letter-spacing: 0.01em;
-  }
-  .tab-btn:hover { color: var(--text); border-bottom-color: var(--border-strong); }
-  .tab-btn.active {
-    color: var(--accent);
-    border-bottom-color: var(--accent);
-    font-weight: 600;
-  }
+/* ── HEADER (stepper only) ── */
+.app-header{
+  position:sticky;top:0;z-index:20;
+  background:rgba(249,249,248,0.96);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  padding:16px 24px 0;
+  flex-shrink:0;
+}
+.progress-track{height:2px;background:var(--border2);width:calc(100%+48px);margin-left:-24px;margin-top:0}
+.progress-fill{height:100%;background:var(--accent);transition:width .5s cubic-bezier(.16,1,.3,1)}
+.step-dots{display:flex;align-items:center;gap:5px;padding:12px 0 14px;overflow-x:auto;scrollbar-width:none}
+.step-dots::-webkit-scrollbar{display:none}
+.step-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;transition:all .3s}
+.step-dot.done{background:var(--accent);width:14px;border-radius:3px}
+.step-dot.current{background:var(--accent);width:20px;border-radius:3px}
+.step-dot.future{background:var(--border)}
 
-  /* ── PAGER ── */
-  .pager {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 2rem;
-    padding: 1rem 0 0.5rem;
-    border-top: 1px solid var(--border);
-  }
-  .pager-btn {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-family: var(--font);
-    font-size: 0.82rem;
-    font-weight: 500;
-    padding: 8px 14px;
-    border: 1px solid var(--border-strong);
-    border-radius: var(--radius);
-    background: var(--surface);
-    color: var(--text-2);
-    cursor: pointer;
-    transition: all 0.15s;
-    min-width: 44px;
-    justify-content: center;
-  }
-  .pager-btn:hover:not(:disabled) { background: var(--bg); border-color: var(--accent); color: var(--accent); }
-  .pager-btn:disabled { opacity: 0.35; cursor: default; }
-  .pager-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
-  .pager-label {
-    font-family: var(--font);
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--text);
-    min-width: 160px;
-    text-align: center;
-    padding: 8px 12px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-  }
-  .pager-label span {
-    font-size: 0.72rem;
-    color: var(--text-3);
-    font-weight: 400;
-    display: block;
-    margin-top: 1px;
-  }
+/* ── SCROLL AREA ── */
+.step-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 0 100px}
 
-  /* ── MODAL ── */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(20,18,14,0.45);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-  }
-  .modal-overlay.open { display: flex; }
-  .modal-box {
-    background: var(--surface);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--border);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-    max-width: 480px;
-    width: 100%;
-    overflow: hidden;
-  }
-  .modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 1.25rem 0.75rem;
-    border-bottom: 1px solid var(--border);
-    gap: 0.75rem;
-  }
-  .modal-title {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--text);
-  }
-  .modal-close {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--text-3);
-    font-size: 1.2rem;
-    line-height: 1;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-family: var(--font);
-    transition: color 0.12s;
-  }
-  .modal-close:hover { color: var(--text); }
-  .modal-body { padding: 1.25rem; }
-  .modal-badge-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 1rem;
-  }
-  .modal-icon {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    flex-shrink: 0;
-  }
-  .modal-org { font-size: 0.78rem; color: var(--text-3); margin-top: 2px; }
-  .modal-desc {
-    font-size: 0.855rem;
-    color: var(--text);
-    line-height: 1.65;
-    margin-bottom: 1rem;
-  }
-  .modal-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    margin-bottom: 1rem;
-  }
-  .modal-list li {
-    font-size: 0.82rem;
-    color: var(--text-2);
-    padding-left: 1rem;
-    position: relative;
-    line-height: 1.5;
-  }
-  .modal-list li::before {
-    content: '–';
-    position: absolute;
-    left: 0;
-    color: var(--text-3);
-  }
-  .modal-footer {
-    font-size: 0.75rem;
-    color: var(--text-3);
-    padding: 0.75rem 1.25rem;
-    border-top: 1px solid var(--border);
-    background: var(--bg);
-  }
-  .badge-clickable {
-    cursor: pointer;
-    transition: opacity 0.12s;
-    user-select: none;
-  }
-  .badge-clickable:hover { opacity: 0.75; }
+/* ══════════ INTRO PAGE ══════════ */
+.intro-hero{padding:32px 24px 20px}
+.intro-title{font-size:28px;font-weight:700;color:var(--text);line-height:1.15;letter-spacing:-.5px;margin-bottom:10px}
+.intro-title em{font-style:normal;color:var(--blue)}
+.intro-lead{font-size:14px;color:var(--text2);line-height:1.65}
+.intro-cards{margin:0 24px;display:flex;flex-direction:column;gap:10px}
+.intro-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;gap:13px;align-items:flex-start}
+.intro-card-icon{width:36px;height:36px;border-radius:10px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.intro-card-icon .material-icons-round{font-size:20px;color:var(--text2)}
+.intro-card-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.intro-card-desc{font-size:12px;color:var(--text2);line-height:1.5}
+.intro-card.warn-card{background:var(--amber-light);border-color:#fde68a}
+.intro-card.warn-card .intro-card-icon{background:#fef3c7;border-color:#fde68a}
+.intro-card.warn-card .intro-card-icon .material-icons-round{color:var(--amber)}
+.intro-card.warn-card .intro-card-title{color:var(--amber)}
+.intro-card.warn-card .intro-card-desc{color:var(--amber);opacity:.85}
 
-  /* ── PAGES ── */
-  .page { display: none; }
-  .page.active { display: block; }
+/* ══════════ VIEW MODE ══════════ */
+.view-page{padding:28px 24px 0}
 
-  /* ── SECTIONS ── */
-  .section {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1rem;
-    box-shadow: var(--shadow);
-  }
-  .section-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-    gap: 0.5rem;
-  }
-  .section-title {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text);
-    letter-spacing: 0.01em;
-    text-transform: uppercase;
-  }
+/* Section header row: title left, Edit button right */
+.section-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:20px;
+}
+.section-hdr-title{
+  font-size:22px;font-weight:700;color:var(--text);letter-spacing:-.4px;line-height:1.1;
+}
+.btn-edit{
+  display:flex;align-items:center;gap:4px;
+  font-family:var(--font);font-size:12px;font-weight:600;
+  color:var(--blue);background:var(--blue-light);
+  border:none;border-radius:8px;padding:6px 12px;cursor:pointer;
+  transition:opacity .15s;flex-shrink:0;
+}
+.btn-edit:active{opacity:.7}
+.btn-edit .material-icons-round{font-size:14px}
 
-  /* ── BADGE ── */
-  .badge {
-    font-size: 0.7rem;
-    font-weight: 500;
-    padding: 2px 9px;
-    border-radius: 20px;
-    white-space: nowrap;
-  }
-  .badge-rcs { background: var(--rcs-bg); color: var(--rcs); }
-  .badge-girft { background: var(--girft-bg); color: var(--girft); }
-  .badge-both { background: var(--both-bg); color: var(--both); }
+/* Field rows in view mode */
+.vf-row{
+  display:flex;align-items:baseline;justify-content:space-between;
+  padding:10px 0;
+  border-bottom:1px solid var(--border2);
+}
+.vf-row:last-child{border-bottom:none}
+.vf-label{font-size:13px;color:var(--text2);font-weight:400;flex-shrink:0;padding-right:16px;max-width:48%}
+.vf-value{font-size:13px;font-weight:600;color:var(--text);text-align:right;line-height:1.4}
+.vf-value.missing{color:var(--red);font-size:11px;text-transform:uppercase;letter-spacing:.4px;font-family:var(--mono)}
 
-  /* ── GRID ── */
-  .fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
-  .full { grid-column: 1 / -1; }
+/* CVS badges in view */
+.cvs-badges{display:flex;flex-direction:column;gap:6px;margin-top:4px}
+.cvs-badge-row{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500}
+.cvs-badge-row .material-icons-round{font-size:16px}
+.cvs-badge-row.ok{color:var(--green)}
+.cvs-badge-row.fail{color:var(--red)}
 
-  /* ── FIELD ── */
-  .field { display: flex; flex-direction: column; gap: 4px; }
-  .field label {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--text-2);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    display: inline-block;
-  }
-  .dot-rcs { background: var(--rcs); }
-  .dot-girft { background: var(--girft); }
-  .dot-both { background: var(--both); }
+/* Team view */
+.vteam-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border2)}
+.vteam-row:last-child{border-bottom:none}
+.vteam-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.vteam-info{flex:1}
+.vteam-role{font-size:10px;text-transform:uppercase;letter-spacing:.8px;font-weight:600;color:var(--text3);font-family:var(--mono);margin-bottom:1px}
+.vteam-name{font-size:13px;font-weight:600;color:var(--text)}
 
-  .field input,
-  .field select,
-  .field textarea {
-    font-family: var(--font);
-    font-size: 0.875rem;
-    color: var(--text);
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 8px 11px;
-    transition: border-color 0.15s, background 0.15s;
-    width: 100%;
-  }
-  .field input:focus,
-  .field select:focus,
-  .field textarea:focus {
-    outline: none;
-    border-color: var(--accent);
-    background: #fff;
-  }
-  .field textarea { resize: none; min-height: 0; line-height: 1.55; overflow: hidden; }
-  .field select { cursor: pointer; }
-  .field .hint {
-    font-size: 0.7rem;
-    color: var(--text-3);
-    line-height: 1.4;
-  }
+/* Section divider */
+.view-divider{height:24px}
 
-  /* ── CHECKBOX ROW ── */
-  .check-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 9px;
-    font-size: 0.875rem;
-    padding: 5px 0;
-  }
-  .check-row input[type=checkbox] {
-    width: 16px; height: 16px;
-    margin-top: 2px;
-    accent-color: var(--accent);
-    flex-shrink: 0;
-  }
+/* ══════════ EDIT MODE OVERLAY ══════════ */
+.edit-overlay{
+  position:fixed;inset:0;max-width:480px;margin:0 auto;
+  background:var(--bg);z-index:50;
+  display:flex;flex-direction:column;
+  transform:translateY(100%);
+  transition:transform .35s cubic-bezier(.16,1,.3,1);
+}
+.edit-overlay.open{transform:translateY(0)}
 
-  /* ── DIVIDER ── */
-  hr { border: none; border-top: 1px solid var(--border); margin: 1rem 0; }
+.edit-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:52px 24px 16px;
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;background:var(--bg);
+}
+.edit-header-title{font-size:17px;font-weight:700;color:var(--text);letter-spacing:-.3px}
+.btn-cancel{
+  font-family:var(--font);font-size:13px;font-weight:500;color:var(--text2);
+  background:none;border:none;cursor:pointer;padding:4px 0;
+}
+.btn-save{
+  font-family:var(--font);font-size:13px;font-weight:600;color:var(--blue);
+  background:none;border:none;cursor:pointer;padding:4px 0;
+}
 
-  /* ── COMPLIANCE PAGE ── */
-  .score-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 1.5rem;
-  }
-  .score-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 1rem;
-    text-align: center;
-    box-shadow: var(--shadow);
-  }
-  .score-num { font-size: 1.75rem; font-weight: 600; color: var(--accent); }
-  .score-lbl { font-size: 0.72rem; color: var(--text-3); margin-top: 2px; }
+.edit-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 24px 100px}
 
-  .bar-wrap { margin-bottom: 1.5rem; }
-  .bar-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.75rem;
-    color: var(--text-2);
-    margin-bottom: 6px;
-  }
-  .bar-track {
-    height: 7px;
-    background: var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .bar-fill {
-    height: 100%;
-    background: var(--both);
-    border-radius: 4px;
-    transition: width 0.5s ease;
-  }
+/* ── FIELD (edit mode) ── */
+.field{margin-bottom:18px}
+.field:last-child{margin-bottom:0}
+.field label{display:block;font-size:11px;font-weight:600;color:var(--text2);margin-bottom:6px;letter-spacing:.4px;text-transform:uppercase}
+.req{color:var(--red);margin-right:2px}
+.field input,.field select,.field textarea{
+  width:100%;font-family:var(--font);font-size:16px;font-weight:400;color:var(--text);
+  background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;
+  padding:11px 13px;outline:none;
+  transition:border-color .15s,background .15s;
+  -webkit-appearance:none;-moz-appearance:none;appearance:none;
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);background:var(--surface)}
+.field input::placeholder,.field textarea::placeholder{color:var(--text3)}
+.field select{
+  cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236f6f6a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 13px center;background-size:12px 12px;padding-right:36px;
+}
+.field select.empty,.field select:not(.empty),.field select:focus{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236f6f6a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 13px center;background-size:12px 12px;
+}
+.field select.empty{color:var(--text3)}
+.field textarea{resize:none;line-height:1.6;overflow:hidden;min-height:80px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field-hint{font-size:11px;color:var(--text3);margin-top:5px;line-height:1.4}
 
-  .missing-section {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow);
-  }
-  .missing-title {
-    padding: 12px 16px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--text-2);
-    background: var(--bg);
-    border-bottom: 1px solid var(--border);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-  .missing-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    padding: 9px 16px;
-    font-size: 0.83rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .missing-row:last-child { border-bottom: none; }
-  .all-good {
-    padding: 1.5rem;
-    text-align: center;
-    font-size: 0.9rem;
-    color: var(--both);
-    font-weight: 500;
-  }
+/* Date/time custom wrapper */
+.field-datetime{position:relative;width:100%}
+.field-datetime input[type="date"],.field-datetime input[type="time"]{
+  width:100%;font-family:var(--font);font-size:16px;color:transparent;
+  background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;
+  padding:11px 13px;outline:none;min-height:46px;line-height:1.2;
+  transition:border-color .15s,background .15s;-webkit-appearance:none;appearance:none;cursor:pointer;
+}
+.field-datetime input[type="date"]:focus,.field-datetime input[type="time"]:focus{border-color:var(--accent);background:var(--surface)}
+.field-datetime input.has-value{color:var(--text)}
+.field-datetime input::-webkit-calendar-picker-indicator{opacity:0;position:absolute;right:0;top:0;width:100%;height:100%;cursor:pointer}
+.field-datetime .dt-ph{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--text3);pointer-events:none}
+.field-datetime input.has-value~.dt-ph,.field-datetime input:focus~.dt-ph{display:none}
 
-  /* ── BUTTONS ── */
-  .btn {
-    font-family: var(--font);
-    font-size: 0.83rem;
-    font-weight: 500;
-    padding: 8px 16px;
-    border-radius: var(--radius);
-    border: 1px solid var(--border-strong);
-    background: var(--surface);
-    color: var(--text);
-    cursor: pointer;
-    transition: all 0.15s;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .btn:hover { background: var(--bg); border-color: var(--accent); color: var(--accent); }
-  .btn-primary {
-    background: var(--accent);
-    color: #fff;
-    border-color: var(--accent);
-  }
-  .btn-primary:hover { background: #122d48; border-color: #122d48; color: #fff; }
-  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 1rem; }
+/* Team select in edit */
+.team-row-edit{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.team-row-edit:last-child{margin-bottom:0}
+.team-avatar-sm{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;background:var(--surface2);border:1px solid var(--border);color:var(--text2)}
+.team-edit-col{flex:1;min-width:0}
+.team-role-label{font-size:10px;text-transform:uppercase;letter-spacing:.8px;font-weight:600;color:var(--text3);font-family:var(--mono);margin-bottom:4px}
+.team-select{
+  width:100%;font-family:var(--font);font-size:16px;color:var(--text);
+  background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;
+  padding:8px 28px 8px 10px;outline:none;cursor:pointer;
+  -webkit-appearance:none;-moz-appearance:none;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 12 12'%3E%3Cpath fill='%236f6f6a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;background-size:10px 10px;
+  transition:border-color .15s;
+}
+.team-select:focus,.team-select.empty,.team-select:not(.empty){
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 12 12'%3E%3Cpath fill='%236f6f6a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;background-size:10px 10px;
+}
+.team-select:focus{border-color:var(--accent)}
+.team-select.empty{color:var(--text3)}
 
-  /* ── LEGEND ── */
-  .legend {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    margin-bottom: 1.5rem;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 12px 16px;
-    align-items: center;
-    box-shadow: var(--shadow);
-  }
-  .legend-label { font-size: 0.72rem; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; }
-  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--text-2); }
+/* CVS checkboxes in edit */
+.cvs-item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-bottom:1px solid var(--border2);cursor:pointer}
+.cvs-item:last-child{border-bottom:none}
+.cvs-check{width:20px;height:20px;border:2px solid var(--border);border-radius:5px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.cvs-check.checked{background:var(--accent);border-color:var(--accent)}
+.cvs-check.checked::after{content:'✓';font-size:11px;color:#fff;font-weight:700}
+.cvs-label{font-size:13px;font-weight:500;color:var(--text);line-height:1.3}
+.cvs-desc{font-size:12px;color:var(--text2);margin-top:2px;line-height:1.4}
 
-  /* ── PREFILL NOTICE ── */
-  .prefill-notice {
-    background: var(--warn-bg);
-    border: 1px solid #e8d4a0;
-    border-radius: var(--radius-lg);
-    padding: 10px 14px;
-    font-size: 0.78rem;
-    color: var(--warn);
-    margin-bottom: 1.25rem;
-    line-height: 1.5;
-  }
+/* Edit section sub-heading */
+.edit-sub{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;font-family:var(--mono);margin:20px 0 12px}
+.edit-sub:first-child{margin-top:0}
 
-  /* ── PRINT ── */
-  @media print {
-    body { background: #fff; font-size: 13px; }
-    .tab-bar, .btn-row, .legend, .prefill-notice, .header-actions, .pager, .modal-overlay { display: none !important; }
-    .page { display: block !important; }
-    .section { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; margin-bottom: 0.75rem; }
-    .field input, .field select, .field textarea { background: #fff; border: 1px solid #ccc; }
-    .score-card { box-shadow: none; }
-  }
+/* ══════════ STEP PAGES ══════════ */
+.step-page{display:none}
+.step-page.active{display:block;animation:fadeUp .3s cubic-bezier(.16,1,.3,1)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-  @media (max-width: 600px) {
-    .score-grid { grid-template-columns: 1fr 1fr; }
-    .tab-btn { min-width: 100px; font-size: 0.72rem; padding: 7px 8px; }
-    .page-header { flex-direction: column; gap: 0.75rem; }
-  }
+/* ══════════ REVIEW & SIGN OFF (last step) ══════════ */
+.review-wrap{padding:28px 24px 0}
+.review-banner{
+  background:var(--accent);color:#fff;border-radius:14px;padding:20px;margin-bottom:24px;
+}
+.review-banner-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;opacity:.55;font-family:var(--mono);margin-bottom:6px}
+.review-banner-name{font-size:20px;font-weight:700;letter-spacing:-.3px}
+.review-banner-meta{font-size:12px;opacity:.6;margin-top:4px;font-family:var(--mono)}
+
+.review-section{margin-bottom:24px}
+.review-section-label{font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--text3);font-family:var(--mono);margin-bottom:10px}
+.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.review-item .rk{font-size:11px;color:var(--text3);font-weight:500;margin-bottom:2px}
+.review-item .rv{font-size:13px;color:var(--text);font-weight:500;line-height:1.4}
+.review-item .rv.missing{color:var(--red);font-size:11px;text-transform:uppercase;letter-spacing:.3px;font-family:var(--mono);font-weight:600}
+.review-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;margin:2px}
+.badge-green{background:var(--green-light);color:var(--green);border:1px solid #bbf7d0}
+.badge-red{background:var(--red-light);color:var(--red);border:1px solid #fecaca}
+
+/* Sign off */
+.signoff-card{
+  background:var(--surface);border:2px dashed var(--border);border-radius:14px;
+  padding:24px;transition:border-color .4s,background .4s;margin-bottom:24px;
+}
+.signoff-card.signed{border:2px solid var(--green);background:var(--green-light)}
+.signoff-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px}
+.signoff-sub{font-size:12px;color:var(--text2);margin-bottom:18px;line-height:1.5}
+.sig-box{background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;height:90px;position:relative;overflow:hidden;margin-bottom:12px;touch-action:none}
+.sig-box canvas{position:absolute;inset:0;width:100%;height:100%}
+.calli{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--calli);font-size:32px;color:var(--text);pointer-events:none;padding:0 12px}
+.sig-input{width:100%;font-family:var(--font);font-size:16px;color:var(--text);background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:11px 13px;outline:none;margin-bottom:10px;transition:border-color .15s}
+.sig-input:focus{border-color:var(--accent)}
+.sig-btn{width:100%;padding:13px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;transition:opacity .15s,transform .1s;letter-spacing:-.2px}
+.sig-btn:active{transform:scale(.98);opacity:.9}
+.signed-display{text-align:center;padding:4px 0}
+.signed-icon{width:42px;height:42px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 10px}
+.signed-icon .material-icons-round{font-size:22px;color:#fff}
+.signed-name{font-family:var(--calli);font-size:28px;color:var(--text);margin-bottom:4px}
+.signed-time{font-size:11px;color:var(--text2);font-family:var(--mono)}
+.sig-clear{font-size:12px;color:var(--blue);cursor:pointer;text-align:center;display:block;margin-top:12px;padding:4px}
+.signoff-actions{display:flex;gap:10px;margin-top:14px}
+.signoff-actions button{flex:1;padding:11px;border-radius:10px;font-size:13px;font-weight:600;font-family:var(--font);cursor:not-allowed;background:var(--surface2);color:var(--text3);border:1px solid var(--border)}
+
+/* ══════════ BOTTOM BAR ══════════ */
+.bottom-bar{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:480px;
+  background:rgba(249,249,248,0.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-top:1px solid var(--border);padding:12px 24px 28px;
+  display:flex;gap:10px;z-index:30;
+}
+.btn-back{padding:13px 20px;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;font-size:13px;font-weight:600;font-family:var(--font);color:var(--text2);cursor:pointer;flex-shrink:0;letter-spacing:-.1px;transition:background .15s}
+.btn-back:hover{background:var(--surface2)}
+.btn-next{flex:1;padding:13px;background:var(--accent);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;transition:opacity .15s,transform .1s;display:flex;align-items:center;justify-content:center;gap:7px;letter-spacing:-.2px}
+.btn-next:active{transform:scale(.98);opacity:.9}
+.btn-next.done{background:var(--green)}
+
+/* ══════════ MODAL ══════════ */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-backdrop.open{opacity:1;pointer-events:all}
+.modal-sheet{width:100%;max-width:480px;background:var(--surface);border-radius:20px 20px 0 0;padding:0 0 32px;transform:translateY(100%);transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.modal-backdrop.open .modal-sheet{transform:translateY(0)}
+.modal-handle{width:36px;height:4px;border-radius:2px;background:var(--border);margin:12px auto 0}
+.modal-body{padding:20px 24px 0}
+.modal-icon{width:44px;height:44px;border-radius:50%;background:var(--amber-light);border:1px solid #fde68a;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.modal-icon .material-icons-round{font-size:22px;color:var(--amber)}
+.modal-title{font-size:18px;font-weight:700;color:var(--text);letter-spacing:-.3px;line-height:1.2;margin-bottom:6px}
+.modal-sub{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:16px}
+.modal-list{background:var(--red-light);border:1px solid #fecaca;border-radius:10px;padding:12px 14px;margin-bottom:20px}
+.modal-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--red);font-weight:500;padding:3px 0}
+.modal-item::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--red);flex-shrink:0}
+.modal-actions{display:flex;flex-direction:column;gap:10px;padding:0 24px}
+.mbtn-primary{width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;letter-spacing:-.2px}
+.mbtn-secondary{width:100%;padding:14px;background:var(--surface);color:var(--text2);border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-weight:500;font-family:var(--font);cursor:pointer;letter-spacing:-.2px}
 </style>
 </head>
 <body>
 <div class="shell">
 
-  <!-- HEADER -->
-  <div class="page-header">
-    <div>
-      <div class="page-title">Operative Note</div>
-      <div class="page-subtitle">RCS England &amp; GIRFT Guideline-Compliant Template · Urology</div>
+<!-- ══════════ HOMESCREEN ══════════ -->
+<div class="homescreen" id="homescreen">
+  <div class="hs-time" id="hsTime">09:14</div>
+  <div class="hs-date" id="hsDate">Tuesday, 24 March 2026</div>
+  <div class="hs-spacer"></div>
+  <div class="notif-card" onclick="openApp()">
+    <div class="notif-top">
+      <div class="notif-dot"><span class="material-icons-round">medical_services</span></div>
+      <span class="notif-app">SurgicalOS</span>
+      <span class="notif-ts">now</span>
     </div>
-    <div class="header-actions">
-      <button class="btn" onclick="window.print()">⎙ Print / Export PDF</button>
-      <button class="btn btn-primary" onclick="showPage('compliance'); updateScore()">View compliance →</button>
+    <div class="notif-title">New op-note ready</div>
+    <div class="notif-body">Laparoscopic Cholecystectomy — review and sign off your operative note.</div>
+  </div>
+  <div class="hs-hint">tap to open</div>
+</div>
+
+<!-- ══════════ APP ══════════ -->
+<div class="app" id="app">
+
+  <!-- Header: stepper only -->
+  <div class="app-header">
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
     </div>
+    <div class="step-dots" id="stepDots"></div>
   </div>
 
-  <!-- TAB BAR -->
-  <div class="tab-bar-outer">
-  <div class="tab-bar">
-    <button class="tab-btn active" onclick="showPage('patient')">1 · Patient &amp; team</button>
-    <button class="tab-btn" onclick="showPage('procedure')">2 · Procedure</button>
-    <button class="tab-btn" onclick="showPage('findings')">3 · Findings</button>
-    <button class="tab-btn" onclick="showPage('postop')">4 · Post-operative</button>
-    <button class="tab-btn" onclick="showPage('compliance'); updateScore()">Compliance check</button>
-  </div>
-  </div>
+  <!-- Step scroll area -->
+  <div class="step-scroll" id="stepScroll">
 
-  <!-- LEGEND -->
-  <div class="legend">
-    <span class="legend-label">Key</span>
-    <div class="legend-item"><span class="dot dot-rcs"></span><span class="badge badge-rcs badge-clickable" onclick="openModal('rcs')">RCS England required</span></div>
-    <div class="legend-item"><span class="dot dot-girft"></span><span class="badge badge-girft badge-clickable" onclick="openModal('girft')">GIRFT required</span></div>
-    <div class="legend-item"><span class="dot dot-both"></span><span class="badge badge-both badge-clickable" onclick="openModal('both')">Both RCS + GIRFT</span></div>
-  </div>
-
-  <!-- PREFILL NOTICE -->
-  <div class="prefill-notice">
-    ⚠️ Pre-filled with representative clinical data for a robotic partial nephrectomy (right, cT1a RCC). All patient identifiers are fictional. Review and amend all fields before use in a real clinical record.
-  </div>
-
-  <!-- ══════════════════════════════════════════
-       PAGE 1: PATIENT & TEAM
-  ══════════════════════════════════════════ -->
-  <div id="page-patient" class="page active">
-
-    <div class="section">
-      <div class="section-head">
-        <div class="section-title">Patient identification</div>
-        <span class="badge badge-both badge-clickable" onclick="openModal('both')">RCS + GIRFT</span>
+    <!-- ══ STEP 0: INTRO ══ -->
+    <div class="step-page active" id="step-0">
+      <div class="intro-hero">
+        <div class="intro-title">Laparoscopic<br>Cholecystectomy<br><em>Op-Note</em></div>
+        <div class="intro-lead">You're about to review and complete the post-operative note for this procedure. Please read every section carefully before signing — your signature is a legal record.</div>
       </div>
-      <div class="fields">
-        <div class="field">
-          <label><span class="dot dot-both"></span>Patient full name</label>
-          <input type="text" id="f_name" value="SMITH, James Robert">
-        </div>
-        <div class="field">
-          <label><span class="dot dot-both"></span>Date of birth</label>
-          <input type="date" id="f_dob" value="1963-04-15">
-        </div>
-        <div class="field">
-          <label><span class="dot dot-both"></span>Hospital / NHS number</label>
-          <input type="text" id="f_nhs" value="485 277 3301">
-        </div>
-        <div class="field">
-          <label><span class="dot dot-rcs"></span>Ward</label>
-          <input type="text" id="f_ward" value="Urology Ward 7B">
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-head">
-        <div class="section-title">Date, time &amp; urgency status</div>
-        <span class="badge badge-both badge-clickable" onclick="openModal('both')">RCS + GIRFT</span>
-      </div>
-      <div class="fields">
-        <div class="field">
-          <label><span class="dot dot-both"></span>Date of surgery</label>
-          <input type="date" id="f_date" value="2025-03-25">
-        </div>
-        <div class="field">
-          <label><span class="dot dot-both"></span>Start time</label>
-          <input type="time" id="f_time" value="09:15">
-        </div>
-        <div class="field">
-          <label><span class="dot dot-both"></span>Elective / emergency</label>
-          <select id="f_urgency">
-            <option value="">— select —</option>
-            <option selected>Elective</option>
-            <option>Emergency</option>
-            <option>Urgent</option>
-            <option>Expedited</option>
-          </select>
-        </div>
-        <div class="field">
-          <label><span class="dot dot-girft"></span>NCEPOD classification</label>
-          <select id="f_ncepod">
-            <option value="">— select —</option>
-            <option>1 – Immediate (within minutes)</option>
-            <option>2 – Urgent (within hours)</option>
-            <option>3 – Expedited (within days)</option>
-            <option selected>4 – Elective (planned)</option>
-          </select>
-          <div class="hint">Required by GIRFT for emergency/urgent cases</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-head">
-        <div class="section-title">Surgical team</div>
-        <span class="badge badge-both badge-clickable" onclick="openModal('both')">RCS + GIRFT</span>
-      </div>
-      <div class="fields">
-        <div class="field">
-          <label><span class="dot dot-both"></span>Responsible consultant surgeon</label>
-          <input type="text" id="f_consultant" value="Mr. A. Khan — Consultant Urological Surgeon · GMC 4512367">
-        </div>
-        <div class="field">
-          <label><span class="dot dot-both"></span>Operating surgeon (if trainee)</label>
-          <input type="text" id="f_surgeon" value="Mr. A. Khan (console) · SpR D. Patel (bedside assistant)">
-        </div>
-        <div class="field">
-          <label><span class="dot dot-rcs"></span>Assistant(s)</label>
-          <input type="text" id="f_assist" value="Dr. D. Patel — ST6 Urology · Dr. R. Nguyen — FY2 (camera/port)">
-        </div>
-        <div class="field">
-          <label><span class="dot dot-rcs"></span>Anaesthetist</label>
-          <input type="text" id="f_anaest" value="Dr. S. Williams — Consultant Anaesthetist · GMC 6234891">
-        </div>
-        <div class="field">
-          <label><span class="dot dot-girft"></span>Scrub practitioner</label>
-          <input type="text" id="f_scrub" value="J. Thornton — Senior Scrub Nurse">
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /page-patient -->
-
-
-  <!-- ══════════════════════════════════════════
-       PAGE 2: PROCEDURE
-  ══════════════════════════════════════════ -->
-  <div id="page-procedure" class="page">
-
-    <div class="section">
-      <div class="section-head">
-        <div class="section-title">Diagnoses</div>
-        <span class="badge badge-both badge-clickable" onclick="openModal('both')">RCS + GIRFT</span>
-      </div>
-      <div class="fields">
-        <div class="field full">
-          <label><span class="dot dot-both"></span>Pre-operative diagnosis</label>
-          <textarea id="f_prediag">Right renal mass — enhancing, solid, cT1a (2.3 cm), upper pole, suspicious for renal cell carcinoma on contrast-enhanced CT/MRI. RENAL Nephrometry Score: 6 (moderate complexity). Patient has solitary contralateral kidney with eGFR 68 mL/min/1.73 m².</textarea>
-        </div>
-        <div class="field full">
-          <label><span class="dot dot-both"></span>Post-operative / operative diagnosis</label>
-          <textarea id="f_postdiag">Right upper pole renal mass, 2.3 cm, consistent with clear cell renal cell carcinoma (specimen sent for formal histopathological confirmation). Negative surgical margin on gross inspection. Remaining right renal parenchyma preserved with good perfusion on de-clamping.</textarea>
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-head">
-        <div class="section-title">Procedure details</div>
-        <span class="badge badge-both badge-clickable" onclick="openModal('both')">RCS + GIRFT</span>
-      </div>
-      <div class="fields">
-        <div class="field full">
-          <label><span class="dot dot-both"></span>Name of procedure(s) performed</label>
-          <textarea id="f_proc">Robotic-assisted laparoscopic partial nephrectomy (RALPN), right kidney, upper pole. Intraoperative laparoscopic ultrasound. Retroperitoneal drain insertion.</textarea>
-        </div>
-        <div class="field">
-          <label><span class="dot dot-both"></span>Incision type / site</label>
-          <input type="text" id="f_incision" value="5 × transperitoneal port sites: 12 mm Hasson (umbilicus), 8 mm × 3 robotic ports, 5 mm assistant port (RIF). Pfannenstiel extension (4 cm) for specimen extraction.">
-        </div>
-        <div class="field">
-          <label><span class="dot dot-rcs"></span>Approach</label>
-          <select id="f_approach">
-            <option value="">— select —</option>
-            <option>Open</option>
-            <option>Laparoscopic</option>
-            <option selected>Robotic-assisted</option>
-            <option>Endoscopic</option>
-            <option>Laparoscopic converted to open</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div class="field">
-          <label><span class="dot dot-rcs"></span>Anaesthetic type</label>
-          <select id="f_anatype">
-            <option value="">— select —</option>
-            <option selected>General anaesthesia</option>
-            <option>Spinal</option>
-            <option>Epidural</option>
-            <option>Regional block</option>
-            <option>Local anaesthesia</option>
-            <option>Sedation</option>
-            <option>GA + epidural</option>
-          </select>
-        </div>
-        <div class="field">
-          <label><span class="dot dot-girft"></span>Patient position</label>
-          <select id="f_position">
-            <option value="">— select —</option>
-            <option>Supine</option>
-            <option>Prone</option>
-            <option selected>Lateral decubitus</option>
-            <option>Lithotomy</option>
-            <option>Lloyd-Davies</option>
-            <option>Trendelenburg</option>
-            <option>Reverse Trendelenburg</option>
-          </select>
-        </div>
-        <div class="field">
-          <label><span class="dot dot-girft"></span>Special equipment / implants</label>
-          <input type="text" id="f_equip" value="Da Vinci Xi robotic system (Intuitive Surgical). AirSeal® insufflation port. Laparoscopic ultrasound probe (Hitachi). 0-PDS (renorrhaphy inner layer), 0-Vicryl + Hem-o-lok clips (outer layer). Surgicel® bolsters. No prosthetic implant.">
-        </div>
-        <div class="field">
-          <label><span class="dot dot-rcs"></span>Antibiotic prophylaxis</label>
-          <input type="text" id="f_abx" value="Co-amoxiclav 1.2 g IV at induction (per local formulary). Single dose — no allergy documented.">
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-head">
-        <div class="section-title">Operative description</div>
-        <span class="badge badge-both badge-clickable" onclick="openModal('both')">RCS + GIRFT</span>
-      </div>
-      <div class="fields">
-        <div class="field full">
-          <label><span class="dot dot-both"></span>Step-by-step description</label>
-          <textarea id="f_description">Patient positioned in left lateral decubitus at 70° with right side up. All pressure points padded. Warming blanket applied. Pneumoperitoneum established via open Hasson technique at umbilicus to 15 mmHg CO₂. Four robotic ports sited under direct vision (3 × 8 mm robotic, 1 × 5 mm assistant) using standard transperitoneal configuration. Da Vinci Xi docked overhead.
-
-EXPOSURE: Right colon mobilised medially along the white line of Toldt. Gerota's fascia incised to expose the right kidney and perinephric fat. Hilar dissection performed; renal artery and vein identified and confirmed on laparoscopic ultrasound.
-
-INTRAOPERATIVE ULTRASOUND: Laparoscopic ultrasound probe deployed via assistant port to confirm tumour location (upper pole, ~1 cm from collecting system). Surgical margin marked with cautery.
-
-ISCHAEMIA & TUMOUR EXCISION: A single vascular bulldog clamp applied to the renal artery under direct vision. Warm ischaemia commenced (09:54). Tumour excised with a 5 mm margin of normal parenchyma using robotic scissors and monopolar cautery. Tumour dimensions approximately 2.5 × 2.2 × 2.0 cm on gross inspection. Collecting system entered — defect repaired with 3-0 Monocryl continuous suture. Inner renorrhaphy performed with 0-PDS sliding clip technique. Outer renorrhaphy with 0-Vicryl mattress sutures over Surgicel bolsters, secured with Hem-o-lok clips.
-
-DE-CLAMPING: Bulldog clamp removed at 10:16. Total warm ischaemia time: 22 minutes. Haemostasis confirmed. Kidney visibly reperfused. Argon beam coagulation applied to resection bed.
-
-SPECIMEN RETRIEVAL: Specimen placed in laparoscopic retrieval bag (Endocatch). Pfannenstiel incision extended to 4 cm for specimen extraction. Specimen intact with intact bag.
-
-CLOSURE: Fascia closed with 1-loop PDS at all 12 mm port sites. Skin closed with subcuticular 3-0 Monocryl. Wound infiltrated with 0.5% bupivacaine. 14Fr Blake drain placed in Morrison's pouch via 5 mm port site.</textarea>
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /page-procedure -->
-
-
-  <!-- ══════════════════════════════════════════
-       PAGE 3: FINDINGS
-  ══════════════════════════════════════════ -->
-  <div id="page-findings" class="page">
-
-    <div class="section">
-      <div class="section-head">
-        <div class="section-title">Intraoperative findings</div>
-        <span class="badge badge-both badge-clickable" onclick="openModal('both')">RCS + GIRFT</span>
-      </div>
-      <div class="fields">
-        <div class="field full">
-          <label><span class="dot dot-both"></span>Operative findings</label>
-          <textarea id="f_findings">Solid upper pole right renal mass identified, 2.3–2.5 cm on intraoperative ultrasound, consistent with pre-operative imaging. Tumour partially exophytic with a small endophytic component abutting but not clearly entering the collecting system. No evidence of perinephric fat invasion. Hilar lymph nodes not enlarged. No unexpected adhesions or aberrant anatomy. Contralateral kidney not assessed (retroperitoneal approach not performed). Peritoneal cavity otherwise normal on initial inspection.</textarea>
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-head">
-        <div class="section-title">Tissue, specimens &amp; implants</div>
-        <span class="badge badge-both badge-clickable" onclick="openModal('both')">RCS + GIRFT</span>
-      </div>
-      <div class="fields">
-        <div class="field full">
-          <label><span class="dot dot-both"></span>Tissue removed / added / altered</label>
-          <textarea id="f_tissue">REMOVED: Right upper pole renal mass with 5 mm margin of normal renal parenchyma. Gross dimensions: 2.5 × 2.2 × 2.0 cm. Perinephric fat cuff included. Specimen placed in formalin and sent to Histopathology (Ref: HP-25-04812) for formal histological assessment, staging, and margin status. No intraoperative frozen section performed.
-
-ALTERED: Collecting system breach repaired with absorbable suture. Renal parenchyma renorrhaphy performed as described above.
-
-ADDED: Surgicel® oxidised cellulose bolsters (2 strips, 5 × 3 cm) — no batch number per single-use pack. 14Fr Blake retroperitoneal drain.</textarea>
-        </div>
-        <div class="field">
-          <label><span class="dot dot-girft"></span>Specimen sent to histology</label>
-          <select id="f_histo">
-            <option value="">— select —</option>
-            <option selected>Yes – details above</option>
-            <option>No – not indicated</option>
-          </select>
-        </div>
-        <div class="field">
-          <label><span class="dot dot-girft"></span>Prosthesis / device details</label>
-          <input type="text" id="f_prosthesis" value="No prosthetic device implanted. Surgicel® haemostat used — single-use, batch documentation in theatre log.">
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-head">
-        <div class="section-title">Complications &amp; blood loss</div>
-        <span class="badge badge-both badge-clickable" onclick="openModal('both')">RCS + GIRFT</span>
-      </div>
-      <div class="fields">
-        <div class="field">
-          <label><span class="dot dot-both"></span>Intraoperative complications</label>
-          <select id="f_complications" onchange="toggleCompDetail(this)">
-            <option value="">— select —</option>
-            <option selected>None</option>
-            <option>Yes – described below</option>
-          </select>
-        </div>
-        <div class="field full" id="comp_detail_wrap" style="display:none">
-          <label><span class="dot dot-both"></span>Complication details</label>
-          <textarea id="f_comp_detail" placeholder="Describe complication(s) and management"></textarea>
-        </div>
-        <div class="field">
-          <label><span class="dot dot-both"></span>Estimated blood loss (mL)</label>
-          <input type="number" id="f_ebl" value="80">
-        </div>
-        <div class="field">
-          <label><span class="dot dot-girft"></span>Extra procedure performed</label>
-          <input type="text" id="f_extraprocedure" value="None. Collecting system repair performed as anticipated given tumour proximity — documented above.">
-        </div>
-        <div class="field">
-          <label><span class="dot dot-girft"></span>Warm ischaemia time (minutes)</label>
-          <input type="number" id="f_wit" value="22">
-        </div>
-        <div class="field">
-          <label><span class="dot dot-girft"></span>Surgical margin status (gross)</label>
-          <input type="text" id="f_margin" value="Clear on gross inspection — formal histological confirmation pending">
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /page-findings -->
-
-
-  <!-- ══════════════════════════════════════════
-       PAGE 4: POST-OPERATIVE
-  ══════════════════════════════════════════ -->
-  <div id="page-postop" class="page">
-
-    <div class="section">
-      <div class="section-head">
-        <div class="section-title">Prophylaxis</div>
-        <span class="badge badge-both badge-clickable" onclick="openModal('both')">RCS + GIRFT</span>
-      </div>
-      <div class="fields">
-        <div class="field">
-          <label><span class="dot dot-rcs"></span>DVT prophylaxis type</label>
-          <select id="f_dvt">
-            <option value="">— select —</option>
-            <option selected>LMWH + mechanical</option>
-            <option>LMWH – dose and duration specified below</option>
-            <option>Mechanical (TED stockings / compression device)</option>
-            <option>Not indicated – reason documented</option>
-            <option>Contraindicated – reason documented</option>
-          </select>
-        </div>
-        <div class="field">
-          <label><span class="dot dot-rcs"></span>DVT prophylaxis details</label>
-          <input type="text" id="f_dvt_detail" value="Enoxaparin 40 mg SC OD — commence 6 hours post-op, continue for 28 days post-discharge (NICE NG89 — cancer surgery). TED stockings + pneumatic compression intraoperatively and until fully mobile.">
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-head">
-        <div class="section-title">Post-operative instructions</div>
-        <span class="badge badge-both badge-clickable" onclick="openModal('both')">RCS + GIRFT</span>
-      </div>
-      <div class="fields">
-        <div class="field full">
-          <label><span class="dot dot-both"></span>Immediate post-op instructions</label>
-          <textarea id="f_postopinstr">ANALGESIA: Regular paracetamol 1 g QDS + ibuprofen 400 mg TDS (if eGFR stable). PRN oramorph 5–10 mg for breakthrough pain. Avoid NSAIDs if creatinine rises >20% from baseline — check U&amp;E at 6 hours post-op.
-
-MONITORING: Observations Q1H for 4 hours then Q4H. Urine output target ≥0.5 mL/kg/hr. Fluid balance chart. Monitor drain output.
-
-IV FLUIDS: Hartmann's 1 L over 8 hours then convert to oral intake when tolerating.
-
-DRAIN: Blake drain to free drainage. Remove when output &lt;30 mL/24 h AND creatinine in drain fluid not significantly elevated above serum (send drain creatinine on POD1 if urine output concerns).
-
-CATHETER: 14Fr urethral catheter — remove at 24 hours if drain output satisfactory.
-
-DIET / MOBILISATION: Enhanced recovery — free fluids immediately, light diet from 4 hours post-op. Sit out at 4 hours, mobilise with physio on POD1.
-
-RENAL FUNCTION: U&amp;E, FBC, creatinine at 6 hours post-op and on POD1. Alert if creatinine rises &gt;25% from pre-operative baseline (eGFR 68).
-
-BLOODS: Group &amp; save sample in lab (not transfused intraoperatively — EBL 80 mL).</textarea>
-        </div>
-        <div class="field full">
-          <label><span class="dot dot-girft"></span>Follow-up plan</label>
-          <textarea id="f_followup">Outpatient urology review at 6 weeks post-op:
-— Review histopathology result (expected within 2 weeks — chased if outstanding by POD 14).
-— Discuss pathological stage, grade, and margin status with patient.
-— If confirmed pT1a RCC: surveillance per BAUS/EAU guidelines — CT chest/abdomen at 3 months, then annually × 5 years.
-— Renal function (eGFR) recheck at 6 weeks and 3 months.
-— Wound review and drain site check at 2-week GP appointment.
-— MDT discussion: Uro-oncology MDT to review histology results — booked for w/c 07/04/2025.</textarea>
-        </div>
-        <div class="field">
-          <label><span class="dot dot-girft"></span>Enhanced recovery pathway</label>
-          <select id="f_erp">
-            <option value="">— select —</option>
-            <option selected>Yes – standard pathway</option>
-            <option>Yes – modified (details below)</option>
-            <option>No – not applicable</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-head">
-        <div class="section-title">Signature &amp; countersignature</div>
-        <span class="badge badge-rcs badge-clickable" onclick="openModal('rcs')">RCS required</span>
-      </div>
-      <div class="fields">
-        <div class="field">
-          <label><span class="dot dot-rcs"></span>Note author</label>
-          <input type="text" id="f_author" value="Mr. A. Khan — Consultant Urological Surgeon · GMC 4512367">
-        </div>
-        <div class="field">
-          <label><span class="dot dot-rcs"></span>Time note completed</label>
-          <input type="time" id="f_notetime" value="11:45">
-        </div>
-        <div class="field full">
-          <div class="check-row">
-            <input type="checkbox" id="f_sig" checked onchange="updateScore()">
-            <label for="f_sig">Note signed (or electronic authentication confirmed)</label>
+      <div class="intro-cards">
+        <div class="intro-card">
+          <div class="intro-card-icon"><span class="material-icons-round">checklist</span></div>
+          <div>
+            <div class="intro-card-title">8 sections, pre-filled</div>
+            <div class="intro-card-desc">All fields have been captured from the procedure. Review each section and correct anything that doesn't look right.</div>
           </div>
-          <div class="check-row">
-            <input type="checkbox" id="f_countersig" checked onchange="updateScore()">
-            <label for="f_countersig">Countersigned by responsible consultant (if written by trainee) — N/A here (consultant-authored), confirmed</label>
+        </div>
+        <div class="intro-card">
+          <div class="intro-card-icon"><span class="material-icons-round">gavel</span></div>
+          <div>
+            <div class="intro-card-title">Your signature is a legal record</div>
+            <div class="intro-card-desc">By signing, you confirm this note is accurate and complete. It becomes part of the patient's permanent medical record.</div>
+          </div>
+        </div>
+        <div class="intro-card warn-card">
+          <div class="intro-card-icon"><span class="material-icons-round">smart_toy</span></div>
+          <div>
+            <div class="intro-card-title">Some fields are AI-assisted</div>
+            <div class="intro-card-desc">AI can make errors. Please read every field and correct anything inaccurate before signing.</div>
           </div>
         </div>
       </div>
+      <div style="height:8px"></div>
     </div>
 
-    <div class="btn-row">
-      <button class="btn btn-primary" onclick="showPage('compliance'); updateScore()">View compliance →</button>
-    </div>
-
-  </div><!-- /page-postop -->
-
-
-  <!-- ══════════════════════════════════════════
-       PAGE 5: COMPLIANCE
-  ══════════════════════════════════════════ -->
-  <div id="page-compliance" class="page">
-
-    <div class="score-grid">
-      <div class="score-card">
-        <div class="score-num" id="sc_total">—</div>
-        <div class="score-lbl">Overall compliance</div>
-      </div>
-      <div class="score-card">
-        <div class="score-num" id="sc_rcs">—</div>
-        <div class="score-lbl">RCS fields</div>
-      </div>
-      <div class="score-card">
-        <div class="score-num" id="sc_girft">—</div>
-        <div class="score-lbl">GIRFT fields</div>
+    <!-- ══ STEP 1: PROCEDURE ══ -->
+    <div class="step-page" id="step-1">
+      <div class="view-page">
+        <div class="section-hdr">
+          <div class="section-hdr-title">Procedure</div>
+          <button class="btn-edit" onclick="openEdit(1)"><span class="material-icons-round">edit</span> Edit</button>
+        </div>
+        <div class="vf-row"><span class="vf-label">Procedure</span><span class="vf-value" id="vw_procedure">Laparoscopic Cholecystectomy</span></div>
+        <div class="vf-row"><span class="vf-label">Date</span><span class="vf-value" id="vw_date">24 Mar 2026</span></div>
+        <div class="vf-row"><span class="vf-label">Start time</span><span class="vf-value" id="vw_start">09:14</span></div>
+        <div class="vf-row"><span class="vf-label">End time</span><span class="vf-value" id="vw_end">11:02</span></div>
+        <div class="vf-row"><span class="vf-label">ASA class</span><span class="vf-value" id="vw_asa">ASA II</span></div>
+        <div class="vf-row"><span class="vf-label">Anaesthesia</span><span class="vf-value" id="vw_anaesthesia">General — Endotracheal Intubation</span></div>
       </div>
     </div>
 
-    <div class="bar-wrap">
-      <div class="bar-label">
-        <span>Completion progress</span>
-        <span id="bar_pct">—</span>
+    <!-- ══ STEP 2: PATIENT ══ -->
+    <div class="step-page" id="step-2">
+      <div class="view-page">
+        <div class="section-hdr">
+          <div class="section-hdr-title">Patient</div>
+          <button class="btn-edit" onclick="openEdit(2)"><span class="material-icons-round">edit</span> Edit</button>
+        </div>
+        <div class="vf-row"><span class="vf-label">Full name</span><span class="vf-value" id="vw_name">Jane Smith</span></div>
+        <div class="vf-row"><span class="vf-label">Date of birth</span><span class="vf-value" id="vw_dob">11 Jul 1978</span></div>
+        <div class="vf-row"><span class="vf-label">Sex</span><span class="vf-value" id="vw_sex">Female</span></div>
+        <div class="vf-row"><span class="vf-label">Hospital / MRN</span><span class="vf-value" id="vw_mrn">RJ-00492841</span></div>
       </div>
-      <div class="bar-track">
-        <div class="bar-fill" id="bar_fill" style="width:0%"></div>
+    </div>
+
+    <!-- ══ STEP 3: SURGICAL TEAM ══ -->
+    <div class="step-page" id="step-3">
+      <div class="view-page">
+        <div class="section-hdr">
+          <div class="section-hdr-title">Surgical Team</div>
+          <button class="btn-edit" onclick="openEdit(3)"><span class="material-icons-round">edit</span> Edit</button>
+        </div>
+        <div id="vw_team"><!-- rendered by JS --></div>
       </div>
     </div>
 
-    <div class="missing-section" id="missing_container">
-      <div class="missing-title">Missing fields</div>
-      <div id="missing_list"></div>
+    <!-- ══ STEP 4: DIAGNOSIS ══ -->
+    <div class="step-page" id="step-4">
+      <div class="view-page">
+        <div class="section-hdr">
+          <div class="section-hdr-title">Diagnosis</div>
+          <button class="btn-edit" onclick="openEdit(4)"><span class="material-icons-round">edit</span> Edit</button>
+        </div>
+        <div class="vf-row"><span class="vf-label">Pre-operative</span><span class="vf-value" id="vw_prediag">Symptomatic cholelithiasis</span></div>
+        <div class="vf-row"><span class="vf-label">Post-operative</span><span class="vf-value" id="vw_postdiag">Same as pre-operative diagnosis</span></div>
+        <div class="vf-row"><span class="vf-label">Patient category</span><span class="vf-value" id="vw_patcat">None / Standard</span></div>
+      </div>
     </div>
 
-    <div class="btn-row">
-      <button class="btn" onclick="showPage('patient')">← Back to template</button>
-      <button class="btn" onclick="window.print()">⎙ Print / export PDF</button>
+    <!-- ══ STEP 5: ACCESS & TECHNIQUE ══ -->
+    <div class="step-page" id="step-5">
+      <div class="view-page">
+        <div class="section-hdr">
+          <div class="section-hdr-title">Access &amp; Technique</div>
+          <button class="btn-edit" onclick="openEdit(5)"><span class="material-icons-round">edit</span> Edit</button>
+        </div>
+        <div class="vf-row"><span class="vf-label">Position</span><span class="vf-value" id="vw_position">Supine with reverse Trendelenburg</span></div>
+        <div class="vf-row"><span class="vf-label">Pressure</span><span class="vf-value" id="vw_pressure">14 mmHg</span></div>
+        <div class="vf-row"><span class="vf-label">Access</span><span class="vf-value" id="vw_access">Veress needle — umbilical</span></div>
+        <div class="vf-row"><span class="vf-label">Ports</span><span class="vf-value" id="vw_ports">4-port standard (10mm umbilical + 3×5mm)</span></div>
+        <div class="vf-row"><span class="vf-label">Dissection</span><span class="vf-value" id="vw_dissect">Monopolar electrocautery (hook)</span></div>
+        <div class="vf-row"><span class="vf-label">Clips</span><span class="vf-value" id="vw_clips">2 proximal + 1 distal (cystic duct &amp; artery)</span></div>
+        <div class="vf-row"><span class="vf-label">Timeout</span><span class="vf-value" id="vw_timeout">Yes — performed</span></div>
+        <div class="vf-row"><span class="vf-label">IOC</span><span class="vf-value" id="vw_ioc">Not performed</span></div>
+        <div class="vf-row"><span class="vf-label">ICG fluorescence</span><span class="vf-value" id="vw_icg">Not used</span></div>
+      </div>
     </div>
 
-  </div><!-- /page-compliance -->
+    <!-- ══ STEP 6: CRITICAL VIEW OF SAFETY ══ -->
+    <div class="step-page" id="step-6">
+      <div class="view-page">
+        <div class="section-hdr">
+          <div class="section-hdr-title">Critical View of Safety</div>
+          <button class="btn-edit" onclick="openEdit(6)"><span class="material-icons-round">edit</span> Edit</button>
+        </div>
+        <div id="vw_cvs" class="cvs-badges" style="margin-bottom:16px"><!-- rendered by JS --></div>
+        <div class="vf-row"><span class="vf-label">Difficulty</span><span class="vf-value" id="vw_difficulty">Straightforward — no significant difficulty</span></div>
+        <div class="vf-row"><span class="vf-label">Variations</span><span class="vf-value" id="vw_anat_var">None identified</span></div>
+        <div class="vf-row" id="vw_cvs_alt_row" style="display:none"><span class="vf-label">Alternative</span><span class="vf-value" id="vw_cvs_alt"></span></div>
+      </div>
+    </div>
 
-  <!-- PAGER -->
-  <div id="pager-bar" class="pager">
-    <button class="pager-btn" id="pager-prev" onclick="pagerNav(-1)">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="10,3 5,8 10,13"/></svg>
-      Prev
-    </button>
-    <div class="pager-label" id="pager-label">1. Patient &amp; team<span id="pager-step">1 of 5</span></div>
-    <button class="pager-btn" id="pager-next" onclick="pagerNav(1)">
-      Next
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6,3 11,8 6,13"/></svg>
+    <!-- ══ STEP 7: FINDINGS & CLOSURE ══ -->
+    <div class="step-page" id="step-7">
+      <div class="view-page">
+        <div class="section-hdr">
+          <div class="section-hdr-title">Findings &amp; Closure</div>
+          <button class="btn-edit" onclick="openEdit(7)"><span class="material-icons-round">edit</span> Edit</button>
+        </div>
+        <div class="vf-row"><span class="vf-label">GB appearance</span><span class="vf-value" id="vw_gb_wall">Normal — thin-walled, no inflammation</span></div>
+        <div class="vf-row"><span class="vf-label">Adhesions</span><span class="vf-value" id="vw_adhesions">None</span></div>
+        <div class="vf-row"><span class="vf-label">Bile spillage</span><span class="vf-value" id="vw_bile">None</span></div>
+        <div class="vf-row"><span class="vf-label">Bile duct injury</span><span class="vf-value" id="vw_bdi">None suspected or confirmed</span></div>
+        <div class="vf-row"><span class="vf-label">Estimated blood loss</span><span class="vf-value" id="vw_bleeding">Minimal (&lt;50 ml)</span></div>
+        <div class="vf-row"><span class="vf-label">Specimen</span><span class="vf-value" id="vw_extract">Umbilical port — retrieval bag used</span></div>
+        <div class="vf-row"><span class="vf-label">Pathology</span><span class="vf-value" id="vw_path">Yes — routine histology</span></div>
+        <div class="vf-row"><span class="vf-label">Drain</span><span class="vf-value" id="vw_drain">No drain inserted</span></div>
+        <div class="vf-row"><span class="vf-label">Skin closure</span><span class="vf-value" id="vw_skin">Subcuticular Monocryl + Steri-strips</span></div>
+      </div>
+    </div>
+
+    <!-- ══ STEP 8: POST-OP ══ -->
+    <div class="step-page" id="step-8">
+      <div class="view-page">
+        <div class="section-hdr">
+          <div class="section-hdr-title">Post-op Instructions</div>
+          <button class="btn-edit" onclick="openEdit(8)"><span class="material-icons-round">edit</span> Edit</button>
+        </div>
+        <div class="vf-row"><span class="vf-label">Oral intake</span><span class="vf-value" id="vw_diet">Free fluids when awake — light diet same day</span></div>
+        <div class="vf-row"><span class="vf-label">Discharge</span><span class="vf-value" id="vw_dc">Day case — discharge same day if tolerating</span></div>
+        <div class="vf-row"><span class="vf-label">Activity</span><span class="vf-value" id="vw_activity">Avoid heavy lifting (&gt;5kg) for 4 weeks</span></div>
+        <div class="vf-row"><span class="vf-label">Antibiotics</span><span class="vf-value" id="vw_abx">Cefuroxime 1.5g IV — given</span></div>
+        <div class="vf-row"><span class="vf-label">Post-op antibiotics</span><span class="vf-value" id="vw_postabx">None required — source control complete</span></div>
+        <div class="vf-row"><span class="vf-label">VTE prophylaxis</span><span class="vf-value" id="vw_vte">Enoxaparin — prescribed per body weight</span></div>
+        <div class="vf-row"><span class="vf-label">Analgesia</span><span class="vf-value" id="vw_analgesia">Regular paracetamol + ibuprofen ± codeine PRN</span></div>
+        <div class="vf-row"><span class="vf-label">Follow-up</span><span class="vf-value" id="vw_followup">2 weeks — surgical outpatients</span></div>
+      </div>
+    </div>
+
+    <!-- ══ STEP 9: REVIEW & SIGN OFF ══ -->
+    <div class="step-page" id="step-9">
+      <div class="review-wrap">
+        <!-- Banner -->
+        <div class="review-banner">
+          <div class="review-banner-label">Operative Note</div>
+          <div class="review-banner-name" id="rv_name">Jane Smith</div>
+          <div class="review-banner-meta" id="rv_meta">24 March 2026 · 108min</div>
+        </div>
+
+        <!-- Patient -->
+        <div class="review-section">
+          <div class="review-section-label">Patient</div>
+          <div class="review-grid">
+            <div class="review-item"><div class="rk">Date of Birth</div><div class="rv" id="rv_dob">—</div></div>
+            <div class="review-item"><div class="rk">Sex</div><div class="rv" id="rv_sex">—</div></div>
+            <div class="review-item"><div class="rk">MRN</div><div class="rv" id="rv_mrn">—</div></div>
+            <div class="review-item"><div class="rk">ASA</div><div class="rv" id="rv_asa">—</div></div>
+            <div class="review-item"><div class="rk">Date</div><div class="rv" id="rv_date">—</div></div>
+            <div class="review-item"><div class="rk">Duration</div><div class="rv" id="rv_duration">—</div></div>
+          </div>
+        </div>
+
+        <!-- Team -->
+        <div class="review-section">
+          <div class="review-section-label">Surgical Team</div>
+          <div class="review-grid">
+            <div class="review-item"><div class="rk">Surgeon</div><div class="rv" id="rv_surgeon">—</div></div>
+            <div class="review-item"><div class="rk">Assistant</div><div class="rv" id="rv_assist">—</div></div>
+            <div class="review-item"><div class="rk">Anaesthetist</div><div class="rv" id="rv_anaes">—</div></div>
+            <div class="review-item"><div class="rk">Scrub Nurse</div><div class="rv" id="rv_scrub">—</div></div>
+          </div>
+        </div>
+
+        <!-- Diagnosis -->
+        <div class="review-section">
+          <div class="review-section-label">Diagnosis</div>
+          <div class="review-grid">
+            <div class="review-item"><div class="rk">Pre-op</div><div class="rv" id="rv_prediag">—</div></div>
+            <div class="review-item"><div class="rk">Post-op</div><div class="rv" id="rv_postdiag">—</div></div>
+          </div>
+        </div>
+
+        <!-- Technique -->
+        <div class="review-section">
+          <div class="review-section-label">Access &amp; Technique</div>
+          <div class="review-grid">
+            <div class="review-item"><div class="rk">Position</div><div class="rv" id="rv_position">—</div></div>
+            <div class="review-item"><div class="rk">Pressure</div><div class="rv" id="rv_pressure">—</div></div>
+            <div class="review-item"><div class="rk">Access</div><div class="rv" id="rv_access">—</div></div>
+            <div class="review-item"><div class="rk">Clips</div><div class="rv" id="rv_clips">—</div></div>
+            <div class="review-item"><div class="rk">Timeout</div><div class="rv" id="rv_timeout">—</div></div>
+            <div class="review-item"><div class="rk">IOC</div><div class="rv" id="rv_ioc">—</div></div>
+          </div>
+        </div>
+
+        <!-- CVS -->
+        <div class="review-section">
+          <div class="review-section-label">Critical View of Safety</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px" id="rv_cvs_badges"></div>
+          <div class="review-grid">
+            <div class="review-item"><div class="rk">Difficulty</div><div class="rv" id="rv_difficulty">—</div></div>
+            <div class="review-item"><div class="rk">Variations</div><div class="rv" id="rv_anat_var">—</div></div>
+          </div>
+        </div>
+
+        <!-- Findings -->
+        <div class="review-section">
+          <div class="review-section-label">Findings &amp; Closure</div>
+          <div class="review-grid">
+            <div class="review-item"><div class="rk">GB Wall</div><div class="rv" id="rv_gb_wall">—</div></div>
+            <div class="review-item"><div class="rk">Bile Spillage</div><div class="rv" id="rv_bile">—</div></div>
+            <div class="review-item"><div class="rk">BDI</div><div class="rv" id="rv_bdi">—</div></div>
+            <div class="review-item"><div class="rk">EBL</div><div class="rv" id="rv_bleeding">—</div></div>
+            <div class="review-item"><div class="rk">Drain</div><div class="rv" id="rv_drain">—</div></div>
+            <div class="review-item"><div class="rk">Closure</div><div class="rv" id="rv_skin">—</div></div>
+          </div>
+        </div>
+
+        <!-- Post-op -->
+        <div class="review-section">
+          <div class="review-section-label">Post-operative Plan</div>
+          <div class="review-grid">
+            <div class="review-item"><div class="rk">Diet</div><div class="rv" id="rv_diet">—</div></div>
+            <div class="review-item"><div class="rk">Discharge</div><div class="rv" id="rv_dc">—</div></div>
+            <div class="review-item"><div class="rk">Antibiotics</div><div class="rv" id="rv_abx">—</div></div>
+            <div class="review-item"><div class="rk">Analgesia</div><div class="rv" id="rv_analgesia">—</div></div>
+            <div class="review-item"><div class="rk">Follow-up</div><div class="rv" id="rv_followup">—</div></div>
+          </div>
+        </div>
+
+        <!-- Sign Off -->
+        <div class="signoff-card" id="signoffCard">
+          <div class="signoff-title">Surgeon Sign Off</div>
+          <div class="signoff-sub">By signing, you confirm this operative note is accurate and complete. This is a mandatory medico-legal record.</div>
+          <div id="signoffFormArea">
+            <div class="sig-box" id="sigWrap">
+              <canvas id="sigCanvas"></canvas>
+              <div class="calli" id="calliPreview"></div>
+            </div>
+            <input class="sig-input" type="text" id="sigName" placeholder="Type your full name" oninput="updateCalli(this.value)">
+            <button class="sig-btn" onclick="submitSignoff()">Sign &amp; Complete Operative Note</button>
+          </div>
+          <div id="signedArea" style="display:none">
+            <div class="signed-display">
+              <div class="signed-icon"><span class="material-icons-round">check</span></div>
+              <div class="signed-name" id="signedNameDisp"></div>
+              <div class="signed-time" id="signedTimeDisp"></div>
+              <span class="sig-clear" onclick="revertSignoff()">Revert signature</span>
+            </div>
+            <div class="signoff-actions">
+              <button id="btnPDF">Export PDF</button>
+              <button id="btnEMR">Sync to EMR</button>
+            </div>
+          </div>
+        </div>
+        <div style="height:24px"></div>
+      </div>
+    </div>
+
+  </div><!-- /step-scroll -->
+
+  <!-- Bottom bar -->
+  <div class="bottom-bar">
+    <button class="btn-back" id="btnBack" style="display:none" onclick="goBack()">← Back</button>
+    <button class="btn-next" id="btnNext" onclick="goNext()">
+      <span id="btnNextLabel">Start →</span>
     </button>
   </div>
 
-</div><!-- /shell -->
-
-<!-- MODAL OVERLAY -->
-<div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
-  <div class="modal-box" id="modal-box">
-    <div class="modal-header">
-      <div class="modal-title" id="modal-title"></div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
+  <!-- Missing fields modal -->
+  <div class="modal-backdrop" id="missingModal" onclick="handleModalBackdropClick(event)">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-body">
+        <div class="modal-icon"><span class="material-icons-round">warning</span></div>
+        <div class="modal-title">Sign off with missing fields?</div>
+        <div class="modal-sub">The following required fields have not been filled in. You can still sign off, but the note will be incomplete.</div>
+        <div class="modal-list" id="modalMissingList"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="mbtn-primary" onclick="closeModal()">Review fields</button>
+        <button class="mbtn-secondary" onclick="forceSignoff()">Sign off anyway</button>
+      </div>
     </div>
-    <div class="modal-body" id="modal-body"></div>
-    <div class="modal-footer" id="modal-footer"></div>
+  </div>
+
+</div><!-- /app -->
+
+<!-- ══════════ EDIT OVERLAYS ══════════ -->
+<!-- Each step gets its own edit overlay -->
+
+<!-- EDIT 1: Procedure -->
+<div class="edit-overlay" id="edit-1">
+  <div class="edit-header">
+    <button class="btn-cancel" onclick="closeEdit(1)">Cancel</button>
+    <div class="edit-header-title">Procedure</div>
+    <button class="btn-save" onclick="saveEdit(1)">Save</button>
+  </div>
+  <div class="edit-scroll">
+    <div class="field">
+      <label>Procedure Name</label>
+      <input type="text" id="f_procedure" value="Laparoscopic Cholecystectomy">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Date of Surgery</label>
+        <div class="field-datetime">
+          <input type="date" id="f_date" onchange="markDateFilled(this)">
+          <span class="dt-ph">Select</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>ASA Class</label>
+        <select id="f_asa" onchange="markSelectFilled(this)">
+          <option value="">Select</option>
+          <option>ASA I</option>
+          <option selected>ASA II</option>
+          <option>ASA III</option>
+          <option>ASA IV</option>
+          <option>ASA V</option>
+        </select>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Start Time</label>
+        <div class="field-datetime">
+          <input type="time" id="f_start" onchange="markDateFilled(this)">
+          <span class="dt-ph">Select</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>End Time</label>
+        <div class="field-datetime">
+          <input type="time" id="f_end" onchange="markDateFilled(this)">
+          <span class="dt-ph">Select</span>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label>Anaesthesia</label>
+      <select id="f_anaesthesia" onchange="markSelectFilled(this)">
+        <option selected>General — Endotracheal Intubation</option>
+        <option>General — LMA</option>
+        <option>Regional + Sedation</option>
+        <option>Other</option>
+      </select>
+    </div>
   </div>
 </div>
 
-<script>
-const FIELDS = [
-  {id:'f_name',label:'Patient full name',rcs:true,girft:true},
-  {id:'f_dob',label:'Date of birth',rcs:true,girft:true},
-  {id:'f_nhs',label:'Hospital / NHS number',rcs:true,girft:true},
-  {id:'f_ward',label:'Ward',rcs:true,girft:false},
-  {id:'f_date',label:'Date of surgery',rcs:true,girft:true},
-  {id:'f_time',label:'Time of surgery',rcs:true,girft:true},
-  {id:'f_urgency',label:'Elective / emergency status',rcs:true,girft:true},
-  {id:'f_ncepod',label:'NCEPOD classification',rcs:false,girft:true},
-  {id:'f_consultant',label:'Responsible consultant surgeon',rcs:true,girft:true},
-  {id:'f_surgeon',label:'Operating surgeon',rcs:true,girft:true},
-  {id:'f_assist',label:'Assistant(s)',rcs:true,girft:false},
-  {id:'f_anaest',label:'Anaesthetist name',rcs:true,girft:false},
-  {id:'f_scrub',label:'Scrub practitioner',rcs:false,girft:true},
-  {id:'f_prediag',label:'Pre-operative diagnosis',rcs:true,girft:true},
-  {id:'f_postdiag',label:'Post-operative diagnosis',rcs:true,girft:true},
-  {id:'f_proc',label:'Procedure name(s)',rcs:true,girft:true},
-  {id:'f_incision',label:'Incision type / site',rcs:true,girft:true},
-  {id:'f_approach',label:'Approach (open/robotic etc.)',rcs:true,girft:false},
-  {id:'f_anatype',label:'Anaesthetic type',rcs:true,girft:false},
-  {id:'f_position',label:'Patient position',rcs:false,girft:true},
-  {id:'f_equip',label:'Special equipment / implants',rcs:false,girft:true},
-  {id:'f_abx',label:'Antibiotic prophylaxis',rcs:true,girft:false},
-  {id:'f_description',label:'Step-by-step operative description',rcs:true,girft:true},
-  {id:'f_findings',label:'Intraoperative findings',rcs:true,girft:true},
-  {id:'f_tissue',label:'Tissue removed / added / altered',rcs:true,girft:true},
-  {id:'f_histo',label:'Specimen sent to histology',rcs:false,girft:true},
-  {id:'f_complications',label:'Intraoperative complications',rcs:true,girft:true},
-  {id:'f_ebl',label:'Estimated blood loss',rcs:true,girft:true},
-  {id:'f_extraprocedure',label:'Extra procedure performed',rcs:false,girft:true},
-  {id:'f_dvt',label:'DVT prophylaxis type',rcs:true,girft:false},
-  {id:'f_dvt_detail',label:'DVT prophylaxis details',rcs:true,girft:false},
-  {id:'f_postopinstr',label:'Post-operative instructions',rcs:true,girft:true},
-  {id:'f_followup',label:'Follow-up plan',rcs:false,girft:true},
-  {id:'f_erp',label:'Enhanced recovery pathway',rcs:false,girft:true},
-  {id:'f_author',label:'Note author name + grade',rcs:true,girft:false},
-  {id:'f_notetime',label:'Time note completed',rcs:true,girft:false},
-  {id:'f_sig',label:'Note signed',rcs:true,girft:false,checkbox:true},
-  {id:'f_countersig',label:'Countersigned by consultant',rcs:true,girft:false,checkbox:true},
-];
-
-const PAGES = ['patient','procedure','findings','postop','compliance'];
-const PAGE_LABELS = [
-  '1. Patient & team',
-  '2. Procedure',
-  '3. Findings',
-  '4. Post-operative',
-  'Compliance check'
-];
-let currentPageIdx = 0;
-
-function getVal(f) {
-  const el = document.getElementById(f.id);
-  if (!el) return '';
-  if (f.checkbox) return el.checked ? 'y' : '';
-  return el.value.trim();
-}
-
-function updateScore() {
-  let total=0, filled=0, rT=0, rF=0, gT=0, gF=0;
-  const missing = [];
-  FIELDS.forEach(f => {
-    const v = getVal(f);
-    const done = v !== '';
-    total++; if(done) filled++;
-    if(f.rcs){rT++;if(done)rF++;}
-    if(f.girft){gT++;if(done)gF++;}
-    if(!done) missing.push(f);
-  });
-  const pct = Math.round(filled/total*100);
-  const rPct = Math.round(rF/rT*100);
-  const gPct = Math.round(gF/gT*100);
-  document.getElementById('sc_total').textContent = pct+'%';
-  document.getElementById('sc_rcs').textContent = rPct+'%';
-  document.getElementById('sc_girft').textContent = gPct+'%';
-  document.getElementById('bar_pct').textContent = pct+'%';
-  document.getElementById('bar_fill').style.width = pct+'%';
-  if(missing.length===0){
-    document.getElementById('missing_container').innerHTML = '<div class="all-good">✓ All guideline fields completed — note is fully compliant.</div>';
-  } else {
-    let html = '<div class="missing-title">Missing fields ('+missing.length+')</div>';
-    missing.forEach(f => {
-      const tags = [];
-      if(f.rcs) tags.push('<span class="badge badge-rcs">RCS</span>');
-      if(f.girft) tags.push('<span class="badge badge-girft">GIRFT</span>');
-      html += '<div class="missing-row"><span>'+f.label+'</span><span style="display:flex;gap:4px">'+tags.join('')+'</span></div>';
-    });
-    document.getElementById('missing_container').innerHTML = html;
-  }
-}
-
-function toggleCompDetail(sel) {
-  document.getElementById('comp_detail_wrap').style.display =
-    sel.value === 'Yes – described below' ? 'block' : 'none';
-}
-
-function showPage(id) {
-  const idx = PAGES.indexOf(id);
-  if (idx === -1) return;
-  currentPageIdx = idx;
-  PAGES.forEach((p, i) => {
-    document.getElementById('page-'+p).classList.toggle('active', p===id);
-    document.querySelectorAll('.tab-btn')[i].classList.toggle('active', p===id);
-  });
-  // scroll active tab into view within outer wrapper
-  const activeTab = document.querySelectorAll('.tab-btn')[idx];
-  const outer = document.querySelector('.tab-bar-outer');
-  if (activeTab && outer) {
-    const tabLeft = activeTab.offsetLeft;
-    const tabWidth = activeTab.offsetWidth;
-    const outerWidth = outer.offsetWidth;
-    outer.scrollTo({ left: tabLeft - (outerWidth - tabWidth) / 2, behavior: 'smooth' });
-  }
-  // update pager
-  updatePager();
-  if (id === 'compliance') updateScore();
-  // re-measure textareas now they're visible
-  setTimeout(initAutoResize, 0);
-}
-
-function updatePager() {
-  const idx = currentPageIdx;
-  const labelEl = document.getElementById('pager-label');
-  const stepEl = document.getElementById('pager-step');
-  const prevBtn = document.getElementById('pager-prev');
-  const nextBtn = document.getElementById('pager-next');
-  labelEl.textContent = PAGE_LABELS[idx];
-  stepEl.textContent = (idx + 1) + ' of ' + PAGES.length;
-  labelEl.appendChild(stepEl);
-  prevBtn.disabled = (idx === 0);
-  nextBtn.disabled = (idx === PAGES.length - 1);
-  // update next button text for compliance page
-  nextBtn.innerHTML = idx === PAGES.length - 2
-    ? 'Compliance <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6,3 11,8 6,13"/></svg>'
-    : 'Next <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6,3 11,8 6,13"/></svg>';
-}
-
-function pagerNav(dir) {
-  const newIdx = currentPageIdx + dir;
-  if (newIdx >= 0 && newIdx < PAGES.length) {
-    showPage(PAGES[newIdx]);
-    window.scrollTo({top: 0, behavior: 'smooth'});
-  }
-}
-
-// ── MODAL DATA ──
-const MODAL_DATA = {
-  rcs: {
-    title: 'RCS England — Required fields',
-    iconBg: '#fdf0ee',
-    iconColor: '#c0392b',
-    icon: '⚖',
-    org: 'Royal College of Surgeons of England · Good Surgical Practice (2014)',
-    desc: 'The Royal College of Surgeons of England (RCS England) published 18 mandatory criteria for operative note documentation in its <em>Good Surgical Practice</em> guidelines. These represent the minimum standard expected of all surgeons practising in England and Wales, and form the basis of medico-legal assessment of operative records.',
-    items: [
-      'Established in RCS England <em>Good Surgical Practice</em>, first published 1994, substantively revised 2014',
-      'Operative notes are considered legal documents — non-compliance is a significant medico-legal risk',
-      'Audits consistently show that time of surgery, DVT prophylaxis, and emergency/elective status are the most frequently omitted fields',
-      'Fields marked RCS are the minimum standard for any NHS or independent sector operative record',
-      'The responsible consultant is legally accountable for the content of the note regardless of who writes it'
-    ],
-    footer: 'Reference: Royal College of Surgeons of England. Good Surgical Practice. London: RCS England, 2014. Domain 1.3: Record your work clearly, accurately and legibly.'
-  },
-  girft: {
-    title: 'GIRFT — Getting It Right First Time',
-    iconBg: '#e8f2fa',
-    iconColor: '#1a6b9a',
-    icon: '📋',
-    org: 'NHS England · GIRFT Programme, in collaboration with RCS England, NHS Resolution & ASGBI',
-    desc: 'Getting It Right First Time (GIRFT) is an NHS England programme that identifies unwarranted variation in surgical practice and outcomes. Its operative note guidance builds on the RCS baseline and adds procedure-specific documentation requirements, developed to reduce litigation and improve care quality.',
-    items: [
-      'GIRFT documentation guides were developed jointly with NHS Resolution, the RCS England, and surgical associations including ASGBI and BAETS',
-      'Procedure-specific guides cover: laparoscopic cholecystectomy, appendicectomy, inguinal hernia repair, bowel resection, thyroidectomy, and others',
-      'The current NHS litigation bill exceeds £128.6bn — clear operative documentation is a key lever in dispute resolution',
-      'GIRFT fields extend the RCS baseline with additional data points: NCEPOD classification, patient position, scrub practitioner, implant details, and enhanced recovery status',
-      'GIRFT guidance sits within NHS England\'s Best Practice Library and is expected to inform local trust documentation policies'
-    ],
-    footer: 'Reference: GIRFT / NHS Resolution / RCS England. Best Practice Guides for Surgical Documentation. NHS England, 2022. Available via GIRFT FutureNHS workspace.'
-  },
-  both: {
-    title: 'Required by both RCS England and GIRFT',
-    iconBg: '#e8f5ee',
-    iconColor: '#1a7a4a',
-    icon: '✓',
-    org: 'RCS England Good Surgical Practice (2014) · GIRFT Best Practice Documentation Guides (2022)',
-    desc: 'Fields marked with this indicator are required by <strong>both</strong> the Royal College of Surgeons of England baseline standard and the GIRFT procedure-specific documentation guides. These are the highest-priority fields — their omission exposes the surgeon, trust, and patient to both clinical risk and medico-legal challenge.',
-    items: [
-      'These fields appear in both the 18-point RCS England checklist and the GIRFT procedure-specific documentation frameworks',
-      'Compliance with both standards is expected for all NHS operative records in England',
-      'NCEPOD audits (National Confidential Enquiry into Patient Outcome and Death) have repeatedly cited poor documentation of these dual-standard fields as contributing to avoidable patient harm',
-      'Electronic, typed notes with pre-populated templates for these fields demonstrably improve compliance rates in closed-loop audit studies',
-      'In medico-legal proceedings, failure to document any of these fields is typically considered indefensible'
-    ],
-    footer: 'These fields represent the intersection of RCS England Good Surgical Practice (2014) and GIRFT Documentation Best Practice Guides (2022).'
-  }
-};
-
-function openModal(type) {
-  const d = MODAL_DATA[type];
-  if (!d) return;
-  document.getElementById('modal-title').textContent = d.title;
-  document.getElementById('modal-body').innerHTML = `
-    <div class="modal-badge-header">
-      <div class="modal-icon" style="background:${d.iconBg};color:${d.iconColor};font-size:1.1rem">${d.icon}</div>
-      <div>
-        <div style="font-size:0.87rem;font-weight:600;color:var(--text)">${d.title}</div>
-        <div class="modal-org">${d.org}</div>
+<!-- EDIT 2: Patient -->
+<div class="edit-overlay" id="edit-2">
+  <div class="edit-header">
+    <button class="btn-cancel" onclick="closeEdit(2)">Cancel</button>
+    <div class="edit-header-title">Patient</div>
+    <button class="btn-save" onclick="saveEdit(2)">Save</button>
+  </div>
+  <div class="edit-scroll">
+    <div class="field">
+      <label><span class="req">*</span>Full Name</label>
+      <input type="text" id="f_name" value="Jane Smith">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label><span class="req">*</span>Date of Birth</label>
+        <div class="field-datetime">
+          <input type="date" id="f_dob" onchange="markDateFilled(this)">
+          <span class="dt-ph">Select</span>
+        </div>
+      </div>
+      <div class="field">
+        <label><span class="req">*</span>Sex</label>
+        <select id="f_sex" onchange="markSelectFilled(this)">
+          <option value="">Select</option>
+          <option>Male</option>
+          <option selected>Female</option>
+          <option>Other</option>
+        </select>
       </div>
     </div>
-    <p class="modal-desc">${d.desc}</p>
-    <ul class="modal-list">${d.items.map(i=>'<li>'+i+'</li>').join('')}</ul>
-  `;
-  document.getElementById('modal-footer').textContent = d.footer;
-  document.getElementById('modal-overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
+    <div class="field">
+      <label><span class="req">*</span>Hospital / MRN</label>
+      <input type="text" id="f_mrn" value="RJ-00492841">
+    </div>
+  </div>
+</div>
+
+<!-- EDIT 3: Surgical Team -->
+<div class="edit-overlay" id="edit-3">
+  <div class="edit-header">
+    <button class="btn-cancel" onclick="closeEdit(3)">Cancel</button>
+    <div class="edit-header-title">Surgical Team</div>
+    <button class="btn-save" onclick="saveEdit(3)">Save</button>
+  </div>
+  <div class="edit-scroll">
+    <div class="team-row-edit">
+      <div class="team-avatar-sm" id="av_lead">KP</div>
+      <div class="team-edit-col">
+        <div class="team-role-label">Consultant Surgeon</div>
+        <select class="team-select" id="f_surgeon" onchange="updateAvatar('av_lead',this.value);markSelectFilled(this)">
+          <option value="">Select surgeon</option>
+          <option>Mr. A. Darzi</option><option>Mr. B. Efron</option><option>Mr. C. Hassan</option>
+          <option>Mr. D. Imran</option><option>Ms. E. Jeffries</option><option>Ms. F. Kumar</option>
+          <option>Mr. G. Lee</option><option>Ms. H. Martinez</option><option>Mr. I. Nguyen</option>
+          <option>Ms. J. O'Brien</option><option selected>Mr. K. Patel</option><option>Ms. L. Quinn</option>
+          <option>Mr. M. Rahman</option><option>Ms. N. Singh</option><option>Mr. O. Taylor</option>
+          <option>Other / Not listed</option>
+        </select>
+      </div>
+    </div>
+    <div class="team-row-edit">
+      <div class="team-avatar-sm" id="av_assist">DB</div>
+      <div class="team-edit-col">
+        <div class="team-role-label">First Assistant</div>
+        <select class="team-select" id="f_assist1" onchange="updateAvatar('av_assist',this.value);markSelectFilled(this)">
+          <option value="">Select assistant</option>
+          <option>Dr. A. Alvarez (SpR)</option><option selected>Dr. B. Brown (SpR)</option>
+          <option>Dr. C. Chen (Core)</option><option>Dr. D. Davies (SpR)</option>
+          <option>Dr. E. Evans (FY2)</option><option>Dr. F. Foster (SpR)</option>
+          <option>Dr. G. Green (Core)</option><option>Dr. H. Hughes (SpR)</option>
+          <option>Dr. I. Ibrahim (FY2)</option><option>Dr. J. James (SpR)</option>
+          <option>Dr. K. Khan (Core)</option><option>Scrub nurse (as assistant)</option>
+          <option>None / Solo</option><option>Other / Not listed</option>
+        </select>
+      </div>
+    </div>
+    <div class="team-row-edit">
+      <div class="team-avatar-sm" id="av_anaes">DV</div>
+      <div class="team-edit-col">
+        <div class="team-role-label">Anaesthetist</div>
+        <select class="team-select" id="f_anaes" onchange="updateAvatar('av_anaes',this.value);markSelectFilled(this)">
+          <option value="">Select anaesthetist</option>
+          <option>Dr. A. Adams</option><option>Dr. B. Baker</option><option>Dr. C. Clark</option>
+          <option selected>Dr. D. Davis</option><option>Dr. E. Edwards</option><option>Dr. F. Fisher</option>
+          <option>Dr. G. Garcia</option><option>Dr. H. Hall</option><option>Dr. I. Hill</option>
+          <option>Dr. J. Jackson</option><option>Dr. K. King</option><option>Dr. L. Lewis</option>
+          <option>Other / Not listed</option>
+        </select>
+      </div>
+    </div>
+    <div class="team-row-edit">
+      <div class="team-avatar-sm" id="av_scrub">SJ</div>
+      <div class="team-edit-col">
+        <div class="team-role-label">Scrub Nurse / ODP</div>
+        <select class="team-select" id="f_scrub" onchange="updateAvatar('av_scrub',this.value);markSelectFilled(this)">
+          <option value="">Select scrub nurse</option>
+          <option>Sr. A. Allen (RGN)</option><option>Sr. B. Bell (RGN)</option>
+          <option>Sr. C. Cooper (RGN)</option><option>Sr. D. Diaz (ODP)</option>
+          <option>Sr. E. Ellis (RGN)</option><option>Sr. F. Ford (ODP)</option>
+          <option>Sr. G. Gray (RGN)</option><option>Sr. H. Harris (ODP)</option>
+          <option>Sr. I. Hill (RGN)</option><option selected>Sr. J. Jones (ODP)</option>
+          <option>Other / Not listed</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT 4: Diagnosis -->
+<div class="edit-overlay" id="edit-4">
+  <div class="edit-header">
+    <button class="btn-cancel" onclick="closeEdit(4)">Cancel</button>
+    <div class="edit-header-title">Diagnosis</div>
+    <button class="btn-save" onclick="saveEdit(4)">Save</button>
+  </div>
+  <div class="edit-scroll">
+    <div class="field">
+      <label><span class="req">*</span>Pre-operative Diagnosis</label>
+      <select id="f_prediag" onchange="markSelectFilled(this)">
+        <option value="">Select</option>
+        <optgroup label="Gallstone Disease">
+          <option selected>Symptomatic cholelithiasis</option>
+          <option>Acute calculous cholecystitis</option><option>Chronic calculous cholecystitis</option>
+          <option>Gallstone pancreatitis</option><option>Choledocholithiasis</option><option>Biliary colic</option>
+        </optgroup>
+        <optgroup label="Other">
+          <option>Acalculous cholecystitis</option><option>Gallbladder polyp</option>
+          <option>Gallbladder mucocele</option><option>Suspected gallbladder carcinoma</option>
+          <option>Empyema of gallbladder</option><option>Gallbladder perforation</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="field">
+      <label>Pre-op Notes</label>
+      <textarea id="f_prediag_notes" placeholder="Additional context...">3-day history of right upper quadrant pain, ultrasound confirmed multiple gallstones.</textarea>
+    </div>
+    <div class="field">
+      <label><span class="req">*</span>Post-operative Diagnosis</label>
+      <select id="f_postdiag" onchange="markSelectFilled(this)">
+        <option value="">Select</option>
+        <option selected>Same as pre-operative diagnosis</option>
+        <option>Symptomatic cholelithiasis</option><option>Acute calculous cholecystitis</option>
+        <option>Chronic calculous cholecystitis</option><option>Gallstone pancreatitis</option>
+        <option>Gangrenous cholecystitis</option><option>Empyema of gallbladder</option>
+        <option>Gallbladder perforation — confirmed intraoperatively</option>
+        <option>Unexpected — see findings</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Patient Category</label>
+      <select id="f_patcat" onchange="markSelectFilled(this)">
+        <option selected>None / Standard</option>
+        <option>Elderly (≥65 years)</option><option>Frail — CFS assessed</option>
+        <option>Cirrhotic patient</option><option>Pregnant</option><option>Immunocompromised</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT 5: Access & Technique -->
+<div class="edit-overlay" id="edit-5">
+  <div class="edit-header">
+    <button class="btn-cancel" onclick="closeEdit(5)">Cancel</button>
+    <div class="edit-header-title">Access &amp; Technique</div>
+    <button class="btn-save" onclick="saveEdit(5)">Save</button>
+  </div>
+  <div class="edit-scroll">
+    <div class="edit-sub">Setup</div>
+    <div class="field">
+      <label>Position</label>
+      <select id="f_position" onchange="markSelectFilled(this)">
+        <option selected>Supine with reverse Trendelenburg</option>
+        <option>Supine with left lateral tilt</option><option>Supine flat</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Pneumoperitoneum Pressure</label>
+      <select id="f_pressure" onchange="markSelectFilled(this)">
+        <option>12 mmHg</option><option>13 mmHg</option><option selected>14 mmHg</option>
+        <option>15 mmHg</option><option>Low pressure (&lt;10 mmHg)</option>
+      </select>
+    </div>
+    <div class="edit-sub">Port Configuration</div>
+    <div class="field">
+      <label>Access Method</label>
+      <select id="f_access" onchange="markSelectFilled(this)">
+        <option selected>Veress needle — umbilical</option>
+        <option>Open (Hasson) — umbilical</option><option>Direct trocar insertion</option>
+        <option>Palmer's point entry</option><option>Optical trocar</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Port Configuration</label>
+      <select id="f_ports" onchange="markSelectFilled(this)">
+        <option selected>4-port standard (10mm umbilical + 3×5mm)</option>
+        <option>3-port (10mm umbilical + 2×5mm)</option><option>Single-port (SILS)</option>
+        <option>4-port with 12mm epigastric</option><option>Robotic-assisted</option>
+      </select>
+    </div>
+    <div class="edit-sub">Dissection</div>
+    <div class="field">
+      <label>Primary Dissection Tool</label>
+      <select id="f_dissect" onchange="markSelectFilled(this)">
+        <option selected>Monopolar electrocautery (hook)</option>
+        <option>Monopolar electrocautery (scissors)</option><option>Harmonic scalpel</option>
+        <option>Bipolar + scissors</option><option>Maryland dissector (blunt)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Clips Applied</label>
+      <select id="f_clips" onchange="markSelectFilled(this)">
+        <option selected>2 proximal + 1 distal (cystic duct &amp; artery)</option>
+        <option>3 proximal + 1 distal (cystic duct)</option><option>Locking clips used</option>
+        <option>Ligaclip + Hem-o-lok</option><option>Suture ligation — no clips</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Timeout Before Transection</label>
+      <select id="f_timeout" onchange="markSelectFilled(this)">
+        <option selected>Yes — performed</option><option>No — not performed</option>
+      </select>
+    </div>
+    <div class="edit-sub">Adjuncts</div>
+    <div class="field">
+      <label>Intraoperative Cholangiogram (IOC)</label>
+      <select id="f_ioc" onchange="markSelectFilled(this)">
+        <option selected>Not performed</option>
+        <option>Performed — normal anatomy, contrast to duodenum</option>
+        <option>Performed — filling defect seen</option>
+        <option>Performed — poor filling / inconclusive</option>
+        <option>Attempted — unsuccessful</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>ICG Fluorescence</label>
+      <select id="f_icg" onchange="markSelectFilled(this)">
+        <option selected>Not used</option>
+        <option>Used — anatomy clearly delineated</option><option>Used — inconclusive</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT 6: Critical View of Safety -->
+<div class="edit-overlay" id="edit-6">
+  <div class="edit-header">
+    <button class="btn-cancel" onclick="closeEdit(6)">Cancel</button>
+    <div class="edit-header-title">Critical View of Safety</div>
+    <button class="btn-save" onclick="saveEdit(6)">Save</button>
+  </div>
+  <div class="edit-scroll">
+    <div class="edit-sub">CVS Criteria</div>
+    <div class="cvs-item" onclick="toggleCVS(0)">
+      <div class="cvs-check checked" id="cvs0"></div>
+      <div><div class="cvs-label">Hepatocystic triangle cleared</div><div class="cvs-desc">All fat and fibrous tissue cleared. CBD not exposed.</div></div>
+    </div>
+    <div class="cvs-item" onclick="toggleCVS(1)">
+      <div class="cvs-check checked" id="cvs1"></div>
+      <div><div class="cvs-label">Gallbladder separated from liver bed</div><div class="cvs-desc">Lower third visibly separated from cystic plate.</div></div>
+    </div>
+    <div class="cvs-item" onclick="toggleCVS(2)">
+      <div class="cvs-check checked" id="cvs2"></div>
+      <div><div class="cvs-label">Two-structure rule confirmed</div><div class="cvs-desc">Only cystic duct and cystic artery seen entering GB.</div></div>
+    </div>
+    <div class="edit-sub" style="margin-top:20px">If CVS Not Achieved</div>
+    <div class="field">
+      <label>Alternative Approach</label>
+      <select id="f_cvs_fail" onchange="markSelectFilled(this)">
+        <option selected value="">N/A — CVS achieved</option>
+        <option>Subtotal cholecystectomy — reconstituting</option>
+        <option>Subtotal cholecystectomy — fenestrating</option>
+        <option>Conversion to open cholecystectomy</option>
+        <option>Second surgeon consulted — CVS then achieved</option>
+        <option>Intraoperative cholangiogram used to confirm anatomy</option>
+      </select>
+    </div>
+    <div class="edit-sub">Calot's Triangle</div>
+    <div class="field">
+      <label>Degree of Difficulty</label>
+      <select id="f_difficulty" onchange="markSelectFilled(this)">
+        <option selected>Straightforward — no significant difficulty</option>
+        <option>Moderate — dense adhesions overcome</option>
+        <option>Difficult — significant inflammation or fibrosis</option>
+        <option>Extreme — required alternative strategy</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Anatomical Variations</label>
+      <select id="f_anat_var" onchange="markSelectFilled(this)">
+        <option selected>None identified</option>
+        <option>Short cystic duct</option><option>Low insertion of cystic duct</option>
+        <option>Parallel cystic duct and CBD</option><option>Accessory duct identified</option>
+        <option>Second cystic artery identified</option><option>Aberrant right hepatic artery</option>
+        <option>Mirizzi syndrome</option><option>Other — see notes</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT 7: Findings & Closure -->
+<div class="edit-overlay" id="edit-7">
+  <div class="edit-header">
+    <button class="btn-cancel" onclick="closeEdit(7)">Cancel</button>
+    <div class="edit-header-title">Findings &amp; Closure</div>
+    <button class="btn-save" onclick="saveEdit(7)">Save</button>
+  </div>
+  <div class="edit-scroll">
+    <div class="edit-sub">Gallbladder</div>
+    <div class="field">
+      <label>Wall Appearance</label>
+      <select id="f_gb_wall" onchange="markSelectFilled(this)">
+        <option selected>Normal — thin-walled, no inflammation</option>
+        <option>Mildly thickened — early inflammation</option>
+        <option>Markedly thickened — acute cholecystitis</option>
+        <option>Gangrenous — ischaemic changes</option>
+        <option>Perforated — contained</option><option>Perforated — free perforation</option>
+        <option>Porcelain gallbladder</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Adhesions</label>
+      <select id="f_adhesions" onchange="markSelectFilled(this)">
+        <option selected>None</option>
+        <option>Omental adhesions — divided</option><option>Duodenal adhesions — divided</option>
+        <option>Dense pericholecystic adhesions</option><option>Previous surgical adhesions</option>
+      </select>
+    </div>
+    <div class="edit-sub">Complications</div>
+    <div class="field">
+      <label>Bile Spillage</label>
+      <select id="f_bile" onchange="markSelectFilled(this)">
+        <option selected>None</option>
+        <option>Minor spillage — thoroughly irrigated</option>
+        <option>Significant spillage — irrigated + stones retrieved</option>
+        <option>Gallbladder perforated — stones spilled (retrieval attempted)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Bile Duct Injury</label>
+      <select id="f_bdi" onchange="markSelectFilled(this)">
+        <option selected>None suspected or confirmed</option>
+        <option>Suspected — IOC performed to exclude</option>
+        <option>Confirmed — repaired primarily</option>
+        <option>Confirmed — senior assistance obtained</option>
+        <option>Confirmed — converted to open repair</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Bleeding / EBL</label>
+      <select id="f_bleeding" onchange="markSelectFilled(this)">
+        <option selected>Minimal (&lt;50 ml)</option>
+        <option>Moderate (50–200 ml) — controlled</option>
+        <option>Significant (&gt;200 ml) — controlled</option>
+      </select>
+    </div>
+    <div class="edit-sub">Specimen &amp; Closure</div>
+    <div class="field">
+      <label>Specimen Extraction</label>
+      <select id="f_extract" onchange="markSelectFilled(this)">
+        <option selected>Umbilical port — retrieval bag used</option>
+        <option>Epigastric port — retrieval bag used</option>
+        <option>Umbilical port — no bag (not perforated)</option>
+        <option>Extension of port site required</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Specimen to Pathology</label>
+      <select id="f_path" onchange="markSelectFilled(this)">
+        <option selected>Yes — routine histology</option>
+        <option>Yes — urgent (suspected malignancy)</option>
+        <option>No — routine case, institutional protocol</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Drain</label>
+      <select id="f_drain" onchange="markSelectFilled(this)">
+        <option selected>No drain inserted</option>
+        <option>Blake drain — subhepatic space</option>
+        <option>Blake drain — Morrison's pouch</option>
+        <option>Closed suction drain</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Skin Closure</label>
+      <select id="f_skin" onchange="markSelectFilled(this)">
+        <option selected>Subcuticular Monocryl + Steri-strips</option>
+        <option>Subcuticular Vicryl + Steri-strips</option>
+        <option>Tissue glue (Dermabond)</option>
+        <option>Staples</option><option>Interrupted nylon</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT 8: Post-op Instructions -->
+<div class="edit-overlay" id="edit-8">
+  <div class="edit-header">
+    <button class="btn-cancel" onclick="closeEdit(8)">Cancel</button>
+    <div class="edit-header-title">Post-op Instructions</div>
+    <button class="btn-save" onclick="saveEdit(8)">Save</button>
+  </div>
+  <div class="edit-scroll">
+    <div class="edit-sub">Recovery</div>
+    <div class="field">
+      <label>Oral Intake</label>
+      <select id="f_diet" onchange="markSelectFilled(this)">
+        <option selected>Free fluids when awake — light diet same day</option>
+        <option>Nil by mouth until next morning</option>
+        <option>Free diet from 6 hours post-op</option>
+        <option>Extended NBM — per anaesthetic team</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Discharge Plan</label>
+      <select id="f_dc" onchange="markSelectFilled(this)">
+        <option selected>Day case — discharge same day if tolerating</option>
+        <option>23-hour stay</option><option>Inpatient — 1–2 days</option>
+        <option>Extended inpatient — see notes</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Activity Restrictions</label>
+      <select id="f_activity" onchange="markSelectFilled(this)">
+        <option selected>Avoid heavy lifting (&gt;5kg) for 4 weeks</option>
+        <option>Avoid driving for 24–48 hours (standard)</option>
+        <option>Return to light duties in 1–2 weeks</option>
+        <option>Restrictions as per separate discharge letter</option>
+      </select>
+    </div>
+    <div class="edit-sub">Medications</div>
+    <div class="field">
+      <label>Prophylactic Antibiotics at Induction</label>
+      <select id="f_abx" onchange="markSelectFilled(this)">
+        <option selected>Cefuroxime 1.5g IV — given</option>
+        <option>Co-amoxiclav 1.2g IV — given</option>
+        <option>Metronidazole 500mg IV — given</option>
+        <option>Gentamicin — given (allergy protocol)</option>
+        <option>None — uncomplicated elective case</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Post-op Antibiotics</label>
+      <select id="f_postabx" onchange="markSelectFilled(this)">
+        <option selected>None required — source control complete</option>
+        <option>Continue oral antibiotics — 5-day course</option>
+        <option>Continue IV antibiotics — per microbiology</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>VTE Prophylaxis</label>
+      <select id="f_vte" onchange="markSelectFilled(this)">
+        <option selected>Enoxaparin — prescribed per body weight</option>
+        <option>Fondaparinux — LMWH contraindicated</option>
+        <option>Mechanical prophylaxis only — anticoagulation risk</option>
+        <option>Not required — same-day discharge, low risk</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Analgesia Plan</label>
+      <select id="f_analgesia" onchange="markSelectFilled(this)">
+        <option selected>Regular paracetamol + ibuprofen ± codeine PRN</option>
+        <option>Regular paracetamol + naproxen ± tramadol PRN</option>
+        <option>Paracetamol only (NSAID contraindicated)</option>
+        <option>Analgesia per acute pain team</option>
+      </select>
+    </div>
+    <div class="edit-sub">Follow-up</div>
+    <div class="field">
+      <label>Outpatient Review</label>
+      <select id="f_followup" onchange="markSelectFilled(this)">
+        <option selected>2 weeks — surgical outpatients</option>
+        <option>6 weeks — surgical outpatients</option>
+        <option>GP follow-up only if uncomplicated</option>
+        <option>No routine follow-up — patient to self-refer if concerns</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Additional Notes</label>
+      <textarea id="f_postop_notes" placeholder="Any specific post-op instructions..."></textarea>
+    </div>
+  </div>
+</div>
+
+</div><!-- /shell -->
+
+<script>
+// ── DATA (pre-filled defaults mirror the selected options in the edit overlays)
+const TOTAL_STEPS = 10; // 0:intro 1-8:sections 9:review+signoff
+const cvsChecked = [true, true, true]; // AI pre-filled: all checked
+let currentStep = 0;
+let isSigned = false;
+
+const avatarColors = ['#1e293b','#14532d','#450a0a','#1e1b4b','#431407','#164e63','#365314','#4a1942'];
+const avatarText   = ['#94a3b8','#86efac','#fca5a5','#a5b4fc','#fdba74','#67e8f9','#bef264','#f0abfc'];
+
+// ── HOMESCREEN
+function openApp(){
+  document.getElementById('homescreen').classList.add('gone');
+  setTimeout(()=>{ document.getElementById('app').classList.add('visible'); },320);
+}
+function updateHsClock(){
+  const now=new Date();
+  const h=now.getHours().toString().padStart(2,'0');
+  const m=now.getMinutes().toString().padStart(2,'0');
+  document.getElementById('hsTime').textContent=h+':'+m;
+  const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('hsDate').textContent=days[now.getDay()]+', '+now.getDate()+' '+months[now.getMonth()]+' '+now.getFullYear();
+}
+updateHsClock();
+setInterval(updateHsClock,10000);
+
+// ── STEP DOTS
+function buildDots(){
+  const c=document.getElementById('stepDots');
+  c.innerHTML='';
+  for(let i=0;i<TOTAL_STEPS;i++){
+    const d=document.createElement('div');
+    d.className='step-dot future';d.id='dot-'+i;
+    c.appendChild(d);
+  }
+}
+function updateDots(){
+  for(let i=0;i<TOTAL_STEPS;i++){
+    const d=document.getElementById('dot-'+i);
+    d.className='step-dot '+(i<currentStep?'done':i===currentStep?'current':'future');
+  }
+  const a=document.getElementById('dot-'+currentStep);
+  if(a) a.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
 }
 
-function closeModal() {
-  document.getElementById('modal-overlay').classList.remove('open');
-  document.body.style.overflow = '';
+// ── PROGRESS
+function updateProgress(){
+  const pct=Math.round((currentStep/(TOTAL_STEPS-1))*100);
+  document.getElementById('progressFill').style.width=pct+'%';
 }
 
-function closeModalOutside(e) {
-  if (e.target === document.getElementById('modal-overlay')) closeModal();
+// ── NAVIGATION
+function updateStep(){
+  document.querySelectorAll('.step-page').forEach((p,i)=>p.classList.toggle('active',i===currentStep));
+  document.getElementById('stepScroll').scrollTo({top:0,behavior:'smooth'});
+  updateProgress(); updateDots();
+  setTimeout(initAutoResize,50);
+  setTimeout(initEmptyStates,50);
+
+  const back=document.getElementById('btnBack');
+  const nextBtn=document.getElementById('btnNext');
+  const nextLabel=document.getElementById('btnNextLabel');
+
+  back.style.display=currentStep>0?'block':'none';
+
+  if(currentStep===TOTAL_STEPS-1){
+    // Review & sign off step
+    nextBtn.style.display=isSigned?'flex':'none';
+    if(isSigned){nextBtn.classList.add('done');nextLabel.textContent='Complete ✓';}
+    populateReview();
+    renderTeamView();
+    renderCVSView();
+    // Update bottom bar label to Surgeon Sign Off
+    nextLabel.textContent=isSigned?'Complete ✓':'';
+  } else {
+    nextBtn.style.display='flex';
+    nextBtn.classList.remove('done');
+    nextLabel.textContent=currentStep===0?'Start →':currentStep===TOTAL_STEPS-2?'Review & Sign →':'Next →';
+  }
+
+  // Update the last-step bottom bar: back + "Surgeon Sign Off" (only when not signed)
+  if(currentStep===TOTAL_STEPS-1 && !isSigned){
+    nextBtn.style.display='none'; // sign off is done inline
+  }
+
+  // Always re-render CVS view when on that step
+  if(currentStep===6) renderCVSView();
+  if(currentStep===3) renderTeamView();
 }
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+function goNext(){if(currentStep<TOTAL_STEPS-1){currentStep++;updateStep();}}
+function goBack(){if(currentStep>0){currentStep--;updateStep();}}
 
-// ── AUTO-RESIZE TEXTAREAS ──
-function autoResize(el) {
-  el.style.height = 'auto';
-  el.style.height = el.scrollHeight + 'px';
-}
-function initAutoResize() {
-  document.querySelectorAll('textarea').forEach(ta => {
-    autoResize(ta);
-    ta.addEventListener('input', () => autoResize(ta));
+// ── TEAM VIEW RENDER
+function renderTeamView(){
+  const entries=[
+    {role:'Consultant Surgeon',id:'f_surgeon',avId:'av_lead'},
+    {role:'First Assistant',id:'f_assist1',avId:'av_assist'},
+    {role:'Anaesthetist',id:'f_anaes',avId:'av_anaes'},
+    {role:'Scrub Nurse / ODP',id:'f_scrub',avId:'av_scrub'},
+  ];
+  const wrap=document.getElementById('vw_team');
+  wrap.innerHTML='';
+  entries.forEach(e=>{
+    const sel=document.getElementById(e.id);
+    const val=sel?sel.value:'';
+    const div=document.createElement('div');
+    div.className='vteam-row';
+    const av=document.createElement('div');
+    av.className='vteam-avatar';
+    if(val){
+      const initials=val.split(' ').filter(w=>w.match(/^[A-Z]/)).slice(0,2).join('').toUpperCase()||val.slice(0,2).toUpperCase();
+      const idx=val.charCodeAt(0)%avatarColors.length;
+      av.textContent=initials;av.style.background=avatarColors[idx];av.style.color=avatarText[idx];
+    } else {
+      av.textContent='—';av.style.background='var(--surface2)';av.style.color='var(--text3)';
+    }
+    const info=document.createElement('div');info.className='vteam-info';
+    info.innerHTML=`<div class="vteam-role">${e.role}</div><div class="vteam-name">${val||'<span style="color:var(--red);font-size:11px;text-transform:uppercase;font-family:var(--mono)">Missing</span>'}</div>`;
+    div.appendChild(av);div.appendChild(info);
+    wrap.appendChild(div);
   });
 }
-// run after DOM is ready and again after a tick (handles pre-filled values)
-initAutoResize();
-setTimeout(initAutoResize, 50);
 
-document.querySelectorAll('input, select, textarea').forEach(el => {
-  el.addEventListener('input', () => {
-    if(document.getElementById('page-compliance').classList.contains('active')) updateScore();
+// ── CVS VIEW RENDER
+function renderCVSView(){
+  const labels=['Hepatocystic triangle cleared','Gallbladder separated from liver','Two-structure rule confirmed'];
+  const wrap=document.getElementById('vw_cvs');
+  if(!wrap)return;
+  wrap.innerHTML='';
+  labels.forEach((l,i)=>{
+    const row=document.createElement('div');
+    row.className='cvs-badge-row '+(cvsChecked[i]?'ok':'fail');
+    row.innerHTML=`<span class="material-icons-round">${cvsChecked[i]?'check_circle':'cancel'}</span>${l}`;
+    wrap.appendChild(row);
   });
-  el.addEventListener('change', () => {
-    if(document.getElementById('page-compliance').classList.contains('active')) updateScore();
+  // Update the cvs alt row
+  const altSel=document.getElementById('f_cvs_fail');
+  const altRow=document.getElementById('vw_cvs_alt_row');
+  const altVal=document.getElementById('vw_cvs_alt');
+  if(altSel&&altSel.value&&altSel.value!==''){
+    altRow.style.display='flex';altVal.textContent=altSel.value;
+  } else {
+    altRow.style.display='none';
+  }
+}
+
+// ── AVATAR
+function updateAvatar(id,val){
+  const el=document.getElementById(id);
+  if(!el)return;
+  if(!val){el.textContent='—';el.style.background='var(--surface2)';el.style.color='var(--text3)';el.style.border='1px solid var(--border)';return;}
+  const initials=val.split(' ').filter(w=>w.match(/^[A-Z]/)).slice(0,2).join('').toUpperCase()||val.slice(0,2).toUpperCase();
+  const idx=val.charCodeAt(0)%avatarColors.length;
+  el.textContent=initials;el.style.background=avatarColors[idx];el.style.color=avatarText[idx];el.style.border='none';
+}
+
+// ── CVS TOGGLE
+function toggleCVS(idx){
+  cvsChecked[idx]=!cvsChecked[idx];
+  document.getElementById('cvs'+idx).classList.toggle('checked',cvsChecked[idx]);
+}
+
+// ── EDIT OVERLAY
+function openEdit(n){
+  const ov=document.getElementById('edit-'+n);
+  if(ov){ov.classList.add('open');}
+}
+function closeEdit(n){
+  const ov=document.getElementById('edit-'+n);
+  if(ov){ov.classList.remove('open');}
+}
+function saveEdit(n){
+  closeEdit(n);
+  // Update view layer for the relevant step
+  updateViewStep(n);
+}
+
+function gv(id){const el=document.getElementById(id);return el?el.value||'':'';}
+
+function setVw(id,val){
+  const el=document.getElementById(id);
+  if(!el)return;
+  if(!val||val.trim()===''){el.innerHTML='<span style="color:var(--red);font-size:11px;text-transform:uppercase;font-family:var(--mono)">—</span>';}
+  else el.textContent=val;
+}
+
+function updateViewStep(n){
+  if(n===1){
+    setVw('vw_procedure',gv('f_procedure'));
+    const dv=gv('f_date');
+    let ds='';if(dv){try{ds=new Date(dv).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});}catch(e){}}
+    setVw('vw_date',ds||dv);
+    setVw('vw_start',gv('f_start'));setVw('vw_end',gv('f_end'));
+    setVw('vw_asa',gv('f_asa'));setVw('vw_anaesthesia',gv('f_anaesthesia'));
+  }
+  if(n===2){
+    setVw('vw_name',gv('f_name'));
+    const db=gv('f_dob');let ds='';
+    if(db){try{ds=new Date(db).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});}catch(e){}}
+    setVw('vw_dob',ds||db);setVw('vw_sex',gv('f_sex'));setVw('vw_mrn',gv('f_mrn'));
+  }
+  if(n===3) renderTeamView();
+  if(n===4){
+    setVw('vw_prediag',gv('f_prediag'));setVw('vw_postdiag',gv('f_postdiag'));setVw('vw_patcat',gv('f_patcat'));
+  }
+  if(n===5){
+    setVw('vw_position',gv('f_position'));setVw('vw_pressure',gv('f_pressure'));
+    setVw('vw_access',gv('f_access'));setVw('vw_ports',gv('f_ports'));
+    setVw('vw_dissect',gv('f_dissect'));setVw('vw_clips',gv('f_clips'));
+    setVw('vw_timeout',gv('f_timeout'));setVw('vw_ioc',gv('f_ioc'));setVw('vw_icg',gv('f_icg'));
+  }
+  if(n===6) renderCVSView();
+  if(n===7){
+    setVw('vw_gb_wall',gv('f_gb_wall'));setVw('vw_adhesions',gv('f_adhesions'));
+    setVw('vw_bile',gv('f_bile'));setVw('vw_bdi',gv('f_bdi'));setVw('vw_bleeding',gv('f_bleeding'));
+    setVw('vw_extract',gv('f_extract'));setVw('vw_path',gv('f_path'));
+    setVw('vw_drain',gv('f_drain'));setVw('vw_skin',gv('f_skin'));
+  }
+  if(n===8){
+    setVw('vw_diet',gv('f_diet'));setVw('vw_dc',gv('f_dc'));setVw('vw_activity',gv('f_activity'));
+    setVw('vw_abx',gv('f_abx'));setVw('vw_postabx',gv('f_postabx'));setVw('vw_vte',gv('f_vte'));
+    setVw('vw_analgesia',gv('f_analgesia'));setVw('vw_followup',gv('f_followup'));
+  }
+}
+
+// ── POPULATE REVIEW
+function setRv(id,val){
+  const el=document.getElementById(id);if(!el)return;
+  if(!val||val.trim()===''){el.textContent='Missing';el.className='rv missing';}
+  else{el.textContent=val;el.className='rv';}
+}
+
+function calcDuration(){
+  const s=gv('f_start'),e=gv('f_end');
+  if(!s||!e)return '';
+  const[sh,sm]=s.split(':').map(Number);const[eh,em]=e.split(':').map(Number);
+  const mins=(eh*60+em)-(sh*60+sm);
+  return mins>0?mins+'min':'';
+}
+
+function populateReview(){
+  setRv('rv_name',gv('f_name')||'—');
+  const dv=gv('f_date');let ds='';
+  if(dv){try{ds=new Date(dv).toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});}catch(e){}}
+  document.getElementById('rv_name').textContent=gv('f_name')||'—';
+  const dur=calcDuration();
+  document.getElementById('rv_meta').textContent=(ds||'No date')+(dur?' · '+dur:'');
+
+  const db=gv('f_dob');let dbs='';
+  if(db){try{dbs=new Date(db).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});}catch(e){}}
+  setRv('rv_dob',dbs);setRv('rv_sex',gv('f_sex'));setRv('rv_mrn',gv('f_mrn'));
+  setRv('rv_asa',gv('f_asa'));setRv('rv_date',ds);setRv('rv_duration',dur||'—');
+
+  setRv('rv_surgeon',gv('f_surgeon'));setRv('rv_assist',gv('f_assist1'));
+  setRv('rv_anaes',gv('f_anaes'));setRv('rv_scrub',gv('f_scrub'));
+
+  setRv('rv_prediag',gv('f_prediag'));setRv('rv_postdiag',gv('f_postdiag'));
+
+  setRv('rv_position',gv('f_position'));setRv('rv_pressure',gv('f_pressure'));
+  setRv('rv_access',gv('f_access'));setRv('rv_clips',gv('f_clips'));
+  setRv('rv_timeout',gv('f_timeout'));setRv('rv_ioc',gv('f_ioc'));
+
+  const cvsLabels=['Hepatocystic triangle','GB from liver','Two-structure rule'];
+  const bw=document.getElementById('rv_cvs_badges');bw.innerHTML='';
+  cvsLabels.forEach((l,i)=>{
+    const b=document.createElement('span');
+    b.className='review-badge '+(cvsChecked[i]?'badge-green':'badge-red');
+    b.textContent=(cvsChecked[i]?'✓ ':'✗ ')+l;bw.appendChild(b);
   });
+  setRv('rv_difficulty',gv('f_difficulty'));setRv('rv_anat_var',gv('f_anat_var'));
+
+  setRv('rv_gb_wall',gv('f_gb_wall'));setRv('rv_bile',gv('f_bile'));
+  setRv('rv_bdi',gv('f_bdi'));setRv('rv_bleeding',gv('f_bleeding'));
+  setRv('rv_drain',gv('f_drain'));setRv('rv_skin',gv('f_skin'));
+
+  setRv('rv_diet',gv('f_diet'));setRv('rv_dc',gv('f_dc'));
+  setRv('rv_abx',gv('f_abx'));setRv('rv_analgesia',gv('f_analgesia'));
+  setRv('rv_followup',gv('f_followup'));
+}
+
+// ── SIGNATURE
+const canvas=document.getElementById('sigCanvas');
+const ctx=canvas.getContext('2d');
+let drawing=false;
+function resizeCanvas(){const w=document.getElementById('sigWrap');if(!w)return;canvas.width=w.clientWidth;canvas.height=w.clientHeight;}
+setTimeout(resizeCanvas,300);window.addEventListener('resize',resizeCanvas);
+function getPos(e){const r=canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
+function startDraw(e){if(document.getElementById('sigName').value.trim())return;drawing=true;const p=getPos(e);ctx.beginPath();ctx.moveTo(p.x,p.y);}
+function draw(e){if(!drawing)return;const p=getPos(e);ctx.lineTo(p.x,p.y);ctx.strokeStyle='#111110';ctx.lineWidth=2;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();}
+function endDraw(){drawing=false;}
+canvas.addEventListener('mousedown',startDraw);canvas.addEventListener('mousemove',draw);canvas.addEventListener('mouseup',endDraw);
+canvas.addEventListener('touchstart',e=>{e.preventDefault();startDraw(e.touches[0]);},{passive:false});
+canvas.addEventListener('touchmove',e=>{e.preventDefault();draw(e.touches[0]);},{passive:false});
+canvas.addEventListener('touchend',endDraw);
+function updateCalli(val){document.getElementById('calliPreview').textContent=val.trim()?val:'';}
+
+// ── MISSING FIELDS
+const REQUIRED_FIELDS=[
+  {id:'f_name',label:'Patient full name',step:2},
+  {id:'f_dob',label:'Date of birth',step:2},
+  {id:'f_sex',label:'Sex',step:2},
+  {id:'f_mrn',label:'Hospital / MRN',step:2},
+  {id:'f_date',label:'Date of surgery',step:1},
+  {id:'f_surgeon',label:'Consultant surgeon',step:3},
+  {id:'f_assist1',label:'First assistant',step:3},
+  {id:'f_anaes',label:'Anaesthetist',step:3},
+  {id:'f_scrub',label:'Scrub nurse / ODP',step:3},
+  {id:'f_prediag',label:'Pre-operative diagnosis',step:4},
+  {id:'f_postdiag',label:'Post-operative diagnosis',step:4},
+];
+function getMissing(){return REQUIRED_FIELDS.filter(f=>{const el=document.getElementById(f.id);return!el||!el.value||el.value.trim()===''});}
+
+function submitSignoff(){
+  const n=document.getElementById('sigName').value.trim();
+  if(!n){document.getElementById('sigName').focus();document.getElementById('sigName').style.borderColor='var(--red)';return;}
+  const missing=getMissing();
+  if(missing.length>0){showMissingModal(missing);return;}
+  completeSignoff();
+}
+function showMissingModal(missing){
+  document.getElementById('modalMissingList').innerHTML=missing.map(f=>`<div class="modal-item">${f.label}</div>`).join('');
+  document.getElementById('missingModal').classList.add('open');
+}
+function closeModal(){
+  const missing=getMissing();
+  document.getElementById('missingModal').classList.remove('open');
+  if(missing.length>0){
+    currentStep=missing[0].step;updateStep();
+    setTimeout(()=>{const el=document.getElementById(missing[0].id);if(el){openEdit(currentStep);el.focus();}},350);
+  }
+}
+function handleModalBackdropClick(e){if(e.target===document.getElementById('missingModal'))document.getElementById('missingModal').classList.remove('open');}
+function forceSignoff(){closeModal();completeSignoff();}
+
+function completeSignoff(){
+  const n=document.getElementById('sigName').value.trim();
+  const now=new Date();
+  const t=now.toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  document.getElementById('signedNameDisp').textContent=n;
+  document.getElementById('signedTimeDisp').textContent='Signed '+t+' · GMC authenticated';
+  document.getElementById('signoffFormArea').style.display='none';
+  document.getElementById('signedArea').style.display='block';
+  document.getElementById('signoffCard').classList.add('signed');
+  const p=document.getElementById('btnPDF'),em=document.getElementById('btnEMR');
+  const as='flex:1;padding:11px;border-radius:10px;font-size:13px;font-weight:600;font-family:var(--font);cursor:pointer;';
+  p.style.cssText=as+'background:var(--accent);color:#fff;border:none;';
+  em.style.cssText=as+'background:#fff;color:var(--accent);border:1.5px solid var(--accent);';
+  p.onclick=()=>alert('PDF export — feature in deployment');
+  em.onclick=()=>alert('Sync to EMR — feature in deployment');
+  isSigned=true;updateStep();
+}
+function revertSignoff(){
+  document.getElementById('signoffFormArea').style.display='block';
+  document.getElementById('signedArea').style.display='none';
+  document.getElementById('signoffCard').classList.remove('signed');
+  document.getElementById('sigName').value='';
+  document.getElementById('calliPreview').textContent='';
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const p=document.getElementById('btnPDF'),em=document.getElementById('btnEMR');
+  const dis='flex:1;padding:11px;background:var(--surface2);color:var(--text3);border:1px solid var(--border);border-radius:10px;font-size:13px;font-weight:500;font-family:var(--font);cursor:not-allowed';
+  p.style.cssText=dis;em.style.cssText=dis;
+  isSigned=false;document.getElementById('btnNext').style.display='none';
+}
+
+// ── FORM HELPERS
+function autoResize(el){el.style.height='0';el.style.height=el.scrollHeight+'px';}
+function initAutoResize(){
+  document.querySelectorAll('textarea').forEach(ta=>{
+    ta.style.overflow='hidden';autoResize(ta);
+    if(!ta._rb){ta.addEventListener('input',()=>autoResize(ta));ta._rb=true;}
+  });
+}
+function markSelectFilled(sel){sel.classList.toggle('empty',!sel.value||sel.value==='');}
+function markDateFilled(inp){inp.classList.toggle('has-value',!!inp.value);}
+function initEmptyStates(){
+  document.querySelectorAll('.field select,.team-select').forEach(sel=>{
+    markSelectFilled(sel);
+    if(!sel._eb){sel.addEventListener('change',()=>markSelectFilled(sel));sel._eb=true;}
+  });
+  document.querySelectorAll('input[type="date"],input[type="time"]').forEach(inp=>{
+    markDateFilled(inp);
+    if(!sel?._db){if(!inp._db){inp.addEventListener('change',()=>markDateFilled(inp));inp._db=true;}}
+  });
+}
+
+// ── SWIPE NAVIGATION
+(function(){
+  const scroll=document.getElementById('stepScroll');
+  let sX=0,sY=0,sw=false;
+  scroll.addEventListener('touchstart',e=>{if(e.touches.length!==1)return;sX=e.touches[0].clientX;sY=e.touches[0].clientY;sw=false;},{passive:true});
+  scroll.addEventListener('touchmove',e=>{if(e.touches.length!==1)return;const dx=e.touches[0].clientX-sX,dy=e.touches[0].clientY-sY;if(!sw&&Math.abs(dx)>Math.abs(dy)*1.5&&Math.abs(dx)>8)sw=true;},{passive:true});
+  scroll.addEventListener('touchend',e=>{
+    if(!sw)return;
+    const dx=e.changedTouches[0].clientX-sX,dy=e.changedTouches[0].clientY-sY;
+    if(Math.abs(dx)<50||Math.abs(dy)>Math.abs(dx)*.6)return;
+    if(dx<0){if(currentStep<TOTAL_STEPS-1)goNext();}else{if(currentStep>0)goBack();}
+    sw=false;
+  },{passive:true});
+})();
+
+// ── INIT
+buildDots();
+// Pre-fill date to today
+const today=new Date().toISOString().split('T')[0];
+const dateEl=document.getElementById('f_date');
+dateEl.value=today; markDateFilled(dateEl);
+// Pre-fill DOB
+const dobEl=document.getElementById('f_dob');
+dobEl.value='1978-07-11'; markDateFilled(dobEl);
+// Pre-fill times
+const stEl=document.getElementById('f_start');stEl.value='09:14';markDateFilled(stEl);
+const enEl=document.getElementById('f_end');enEl.value='11:02';markDateFilled(enEl);
+// Init all avatars from pre-selected values
+['f_surgeon','f_assist1','f_anaes','f_scrub'].forEach(id=>{
+  const sel=document.getElementById(id);
+  if(sel&&sel.value){
+    const avMap={f_surgeon:'av_lead',f_assist1:'av_assist',f_anaes:'av_anaes',f_scrub:'av_scrub'};
+    updateAvatar(avMap[id],sel.value);
+  }
 });
-
-// initialise pager
-updatePager();
+updateStep();
+initAutoResize();
+initEmptyStates();
+renderTeamView();
+renderCVSView();
+// Update all view steps from pre-filled data
+for(let i=1;i<=8;i++) updateViewStep(i);
 </script>
 </body>
 </html>
